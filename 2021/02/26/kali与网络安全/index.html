@@ -1,486 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="kali安全第三章——定制网络配置默认通过DHCP 获取临时IP地址IP、网关、路由自动获取：dhclient eth0 手动获取：ifconfig eth0 192.168.1.11&#x2F;24 指定网关：（指定网关的过程就是指定默认的路由） route add default gw(网关的意思) 192.168.1.1 查看路由信息：netstat -nr 或者 route -n 添加网段（添加静">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="kali安全第三章——定制网络配置默认通过DHCP 获取临时IP地址IP、网关、路由自动获取：dhclient eth0 手动获取：ifconfig eth0 192.168.1.11&#x2F;24 指定网关：（指定网关的过程就是指定默认的路由） route add default gw(网关的意思) 192.168.1.1 查看路由信息：netstat -nr 或者 route -n 添加网段（添加静">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514211020515.png">
-<meta property="og:image" content="https://i.loli.net/2020/02/23/oIeaOFRbpC6MkZs.jpg">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200326165610141.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200427225012607.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200427225746962.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200427230204180.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200427233546746.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200427234735532.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429213618798.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429214153021.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429214730775.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429215135927.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429215505522.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429220018877.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429220120576.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429220340583.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429222838752.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430091355007.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430091627195.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200429223607317.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430091809082.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430092025221.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430092430839.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430142346112.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430143628155.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430144101225.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430144228456.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430144527172.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430151823831.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430154509351.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430160011026.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430155906962.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430160213257.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430160449022.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430160516448.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430164940747.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165200915.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165211994.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165358104.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165459059.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165602098.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165648017.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430165727800.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430170027598.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430171227833.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430171618310.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200430171848998.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501082803367.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501085425255.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501090017026.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501090306510.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501090621704.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501090754948.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501091036160.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501163443381.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501211057747.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501211821121.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501212745155.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501213024469.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501213322337.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501213820721.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501213829839.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501214714378.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501214932934.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200501215123054.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502095824634.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502100236031.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502100900360.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502100913186.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502101004067.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502105322760.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502102542935.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502102713915.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502104923395.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502105144320.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502105425320.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502162617897.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502162827225.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163759877.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163817326.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163833879.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163853604.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163909073.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163937250.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502163953505.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502164006986.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502203502988.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502204417449.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502204549773.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502204703352.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502205100627.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200502205246529.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200503171635356.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200503174133276.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504094441044.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504095429418.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504095930914.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504100101279.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504100336581.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504100522520.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504110530573.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504110954438.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504113512674.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504113726571.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504114428957.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504115325756.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504115500380.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504145543816.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504150746711.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504151536116.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504151613138.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504154010412.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504161235022.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504161312812.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504161405337.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504180718100.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504181017011.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504181413412.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504182714159.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504183134580.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504183222552.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504183246824.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504183732229.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504185004587.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504185652246.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504185754496.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504185928850.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504190035284.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504190345877.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504205717836.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504210215487.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504212730785.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504212824419.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504213048323.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504213422892.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504213659016.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504213824532.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504214009380.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504214125401.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504214152362.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504214508797.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504215009128.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504215148136.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200504215444219.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505094614006.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505094912450.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505095141844.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505095535409.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505095613362.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505100432254.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505100448100.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505100549860.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505100902412.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505100935048.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505101042031.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505101145881.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102100438.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102156690.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102318144.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102429106.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102606072.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102640588.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505102708780.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505103241111.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505103602436.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505104122492.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505104236918.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505104555294.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505104651951.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505104820188.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505104836692.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505105351485.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505105429330.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505105447115.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505105501876.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505105806588.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505105953744.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505110251851.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505110340298.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200505110430313.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508210748154.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508212659451.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508212718792.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508213024893.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508213211558.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508213727574.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214257402.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214244847.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214424644.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214454249.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214616966.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214726110.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508214814087.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508215339517.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508215412251.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508215419752.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508215906318.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508215950210.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508220010225.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508220049496.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508220153618.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508220441529.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508221248772.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200508222442718.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514195747124.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514200043899.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514200358311.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514200421657.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514200441972.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514200657039.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514200733582.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514201154582.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514201240379.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514201328080.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514201343696.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514201555973.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514201806760.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514202049181.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514202254135.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514202314343.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514202333631.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514202639236.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514203245274.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514203452848.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514203932824.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204221342.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204231691.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204313124.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204321752.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204446664.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204538589.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204758661.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514204937522.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514205054307.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514205652803.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514205732186.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514205848589.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514205943299.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514210403046.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514210700192.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514210707965.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514211027157.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514211048253.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514223028240.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514223153987.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514223305583.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514223659992.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514223721341.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514224001482.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514224009193.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514224053285.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514224223041.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514224622302.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514225551975.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514225744083.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514230006733.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514230221497.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514230526260.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514230539804.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514230737890.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514230925008.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514231226712.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515204016193.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515204045405.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515204126998.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515205426046.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515205518105.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515205544277.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515205552183.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515205732731.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515210532681.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515210620928.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515210641584.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515210652934.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515211447467.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515211509834.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515211610635.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515211802965.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515211841339.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516095204885.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515211920710.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200515212016544.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516094653668.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516094807390.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516095258052.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516095623109.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516095819146.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516095832622.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516100000950.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516100413524.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516100830313.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516101203072.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516101235985.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516101613574.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516101711841.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516101734476.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516101905573.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102101023.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102134660.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102249397.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102409698.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102440756.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102503682.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200516102524296.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200517220400542.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200517220508934.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519214510301.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215041373.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215144610.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215249589.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215458592.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215556258.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215615410.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215712960.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215834112.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519215949934.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519220339743.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519220353835.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519220817925.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519220955481.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519221039341.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519221127790.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519221153684.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519221525945.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519222252344.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519222347400.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519222643097.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519222903355.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519223034139.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200519223347539.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627173900401.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627174637288.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627174703999.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627174729902.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627174850205.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627174905490.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627175040092.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627193306678.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627200236601.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200627201505850.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200701105942242.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200701111910662.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200701114617447.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200701115954708.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200701120038238.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704202734981.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704203034183.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704203335857.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204100251.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204122112.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204138991.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204234119.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204548300.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204654932.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204711772.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204730924.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704204903437.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704205020741.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704205147461.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200704221405634.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705101923017.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705102606767.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705104000459.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705105342658.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705110324402.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705110537020.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705110623935.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705111702040.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705111806195.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705111904708.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705214859996.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705215026702.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705215130549.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705221303536.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705221330852.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200705221452142.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713215734456.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713222907502.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713223242564.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713223424856.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713223900870.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713224815764.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200713225012573.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717204132769.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717204326393.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717204604628.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717205207478.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717205714038.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717210447904.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717210521232.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717210635792.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717210724904.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717210818087.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717211443690.png">
-<meta property="og:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200717211629972.png">
-<meta property="article:published_time" content="2021-02-26T01:04:54.225Z">
-<meta property="article:modified_time" content="2020-07-18T14:21:12.438Z">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/Nouz/AppData/Roaming/Typora/typora-user-images/image-20200514211020515.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title></title>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/NotoSansSC.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Playball.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/PTMono.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/RobotoSlab.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css">
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css">
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css">
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js"></script>
+
 <meta name="generator" content="Hexo 5.4.0"></head>
-
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+    <a id="cover"></a>
+    <div id="header">
+    <div class="header">
+        <div class="vertical">
+            <div class="inner">
+                <h1 class="header-subtitle"></h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2021-02-26
+                        </span>
+                        
+                            <span id="/2021/02/26/kali与网络安全/" class="leancloud_visitors" data-flag-title="">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2021/02/26/kali与网络安全/"></span>
+                        </span>  
+                    </p>                 
+                </div>
+            </div>
+        </div>
+        <canvas id="articleHeaderCanvas"></canvas>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-kali与网络安全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" class="article-date">
-  <time class="dt-published" datetime="2021-02-26T01:04:54.225Z" itemprop="datePublished">2021-02-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
+</div>
+    <div id="container">
+    <div id="content">
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
         <p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200514211020515.png" alt="image-20200514211020515"></p>
 <h3 id="kali安全第三章——定制"><a href="#kali安全第三章——定制" class="headerlink" title="kali安全第三章——定制"></a>kali安全第三章——定制</h3><h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><p>默认通过DHCP</p>
 <h5 id="获取临时IP地址"><a href="#获取临时IP地址" class="headerlink" title="获取临时IP地址"></a>获取临时IP地址</h5><h6 id="IP、网关、路由"><a href="#IP、网关、路由" class="headerlink" title="IP、网关、路由"></a>IP、网关、路由</h6><p>自动获取：dhclient eth0</p>
@@ -2361,113 +1937,585 @@
 <p><img src="C:\Users\Nouz\AppData\Roaming\Typora\typora-user-images\image-20200717211629972.png" alt="image-20200717211629972"></p>
 <p>即刚刚</p>
 
-      
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/sidebar/avatar.jpg" alt="Live For Code">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：Live For Code
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" target="_blank"></a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" data-id="ckllljgll0000iguw7yjr5day" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2021/02/25/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
+    <div class="article-footer">
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li></ul>
+        
+        <div class="article-prev-next">
+            
+            
+                <a href="/2021/02/25/hello-world/" class="next-prefix">» </a> 下一篇：    <a href="/2021/02/25/hello-world/" title="发布于 2021-02-25 11:28">Hello World</a>
+            
+        </div>
     </div>
-  </div>
-
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/02/26/kali%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/25/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
     </div>
-  </div>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+</div>
 
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+</div>
+    <div id="footer"></div>
+    <div id="sidebar">
+    <div class="menu-wrap" style="display:none;">
+        <nav class="menu">
+            <div class="menu-introduce"> 
+                <div class="introduce-avatar"></div> 
+                <div class="introduce-info"> 
+                    <div class="introduce-user"><span></span></div>        
+                </div> 
+            </div> 
+            <div class="menu-list">
+                <ul></ul> 
+            </div> 
+            <div class="menu-link"></div> 
+        </nav>
+        <button class="menu-button-close"></button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
+            </svg>
+        </div>
+    </div>
+    <button class="menu-button-open">MENU</button>
+    <div class="menu-cover"></div>
+</div>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/search.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/iscroll.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/instantsearch.min.js"></script>
+<div class="search-window">
+    <div class="search-content">
+        <div class="search-content-icon">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="search-input" class="search-input"></div>
+    </div>
+
+    <div class="search-scroll">
+        <div class="search-result">
+            <div id="search-stats" class="search-stats"></div>
+            <div id="search-hits"></div>
+            <div id="search-pagination" class="search-pagination"></div>
+        </div>
+    </div>
+
+    <span class="search-close-icon">
+        <i class="iconfont icon-close"></i>
+    </span>
+</div>
+    <div id="tools">
+    <div class="progressbar-top"></div>
+
     
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/Meting.min.js"></script>
+        <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+    
+    
+    <div class="wrap-right"></div>
+    <div class="loading"></div>
+</div>
+    <script>
+    window.config = {
+        GitHubUserName     : 'first19326',
+        GitHubRepositories : 'Hexo-LiveForCode',
 
+        BlogUser      : 'Live For Code',
+        BlogAvatar    : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/sidebar/avatar.jpg',
+        BlogStartDate : '2020-01-01',
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+        WebsiteTitleBlur         : '(◍´꒳`◍) Hi, Live For Code',
+        WebsiteTitleBlurTimeOut  : 500,
+        WebsiteTitleFocus        : '(*´∇｀*) 欢迎回来!',
+        WebsiteTitleFocusTimeOut : 1000,
+        WebsiteFavicon           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/website/logo.png',
 
+        ProgressBar: {
+            id       : 'topProgressBar',
+            color    : '#77B6FF',
+            height   : '2px',
+            duration : 0.2
+        },
 
+        Loading: {
+            rebound: {
+                tension  : 16,
+                friction : 5
+            },
+            spinner: {
+                id     : 'spinner',
+                radius : 90,
+                sides  : 3,
+                depth  : 4,
+                colors : {
+                    background : '#F0F0F0',
+                    stroke     : '#272633',
+                    base       : '',
+                    child      : '#272633'
+                },
+                alwaysForward : true,
+                restAt        : 0.5,
+                renderBase    : false
+            }
+        },
 
+        HomeHeaderAnimationRendered : true,
+        HomeHeaderAnimation         : {
+            radius      : 15,
+            density     : 0.2,
+            color       : 'rgba(255, 255, 255, .2)',
+            clearOffset : 0.3
+        },
+
+        ArticleHeaderAnimationRendered : false,
+        ArticleHeaderAnimation         : {
+            triW                  : 14,
+            triH                  : 20,
+            neighbours            : [
+                
+                    'side',
+                
+                    'top',
+                
+                    'bottom',
+                
+            ],
+            speedTrailAppear      : 0.1,
+            speedTrailDisappear   : 0.1,
+            speedTriOpen          : 1,
+            trailMaxLength        : 30,
+            trailIntervalCreation : 100,
+            delayBeforeDisappear  : 2,
+            colors                : [
+                
+                    '#96EDA6',
+                
+                    '#5BC6A9',
+                
+                    '#38668C',
+                
+                    '#374D84',
+                
+                    '#BED5CB',
+                
+                    '#62ADC6',
+                
+                    '#8EE5DE',
+                
+                    '#304E7B',
+                
+            ]
+        },
+
+        BackAnimationRendered          : true,
+        IEBrowserBackAnimationRendered : false,
+        BackAnimation                  : {
+            colorSaturation  : '60%',
+            colorBrightness  : '50%',
+            colorAlpha       : 0.5,
+            colorCycleSpeed  : 5,
+            verticalPosition : 'random',
+            horizontalSpeed  : 200,
+            ribbonCount      : 3,
+            strokeSize       : 0,
+            parallaxAmount   : -0.2,
+            animateSections  : true
+        },
+
+        HomeHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/home.jpg',
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/home.jpeg',
+            
+        ],
+        HomeBannerText  : '',
+
+        ArticleHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/header/article.jpg',
+            
+        ],
+
+        OtherBannerText : '',
+
+        MenuList : [
+            
+                {
+                    name   : '首页',
+                    href   : '/',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '标签',
+                    href   : '/tag',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '分类',
+                    href   : '/category',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '归档',
+                    href   : '/archive',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '赞赏',
+                    href   : '/donate',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '关于',
+                    href   : '/about',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '订阅',
+                    href   : '/atom.xml',    
+                    target : '_blank',
+                    class  : ''
+                },
+            
+                {
+                    name   : '搜索',
+                    href   : '',    
+                    target : '',
+                    class  : 'search'
+                },
+            
+                {
+                    name   : '留言板',
+                    href   : '/comment',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '友情链接',
+                    href   : '/friend',    
+                    target : '',
+                    class  : ''
+                },
+            
+        ],
+        MenuLink : [
+            
+                
+                    {
+                        icon : 'icon-weibo', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-wechat', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-qq', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-github', 
+                        url  : 'https://github.com/first19326'
+                    },
+                
+            
+        ],
+
+        FooterStyle : 2,
+        BottomText  : {
+            icon    : 'like-fill',
+            left    : '人生若只如初见',
+            right   : '何事秋风悲画扇'
+        },
+        ThemeInfo   : true,
+
+        ConsoleList : [
+            
+                
+                    [
+                        
+                            
+                                'Based on cnblogs theme SimpleMemory.',
+                            
+                                '',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'SimpleMemory Author:',
+                            
+                                'BNDong',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'Theme:',
+                            
+                                'LiveForCode',
+                            
+                        
+                    ],
+                
+            
+        ],
+
+        FontIconExtend : '',
+
+        Donate : {
+            paypal  : '',
+            bitcoin : '',
+            alipay  : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/donate/alipay.png',
+            wechat  : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/donate/wechat.png'
+        },
+
+        Code : {
+            style : 'normal'
+        },  
+
+        Search : {
+            applicationID : '010C3EANT8',
+            apiKey        : 'c7abab9f11b79102b9aff7fe6d41447d',
+            indexName     : 'Notes',
+            hits          : {
+                page : 10
+            },
+            labels        : {
+                placeholder : '搜索',
+                empty       : '未发现与 「${query}」 相关的内容',
+                stats       : '${hits} 条相关条目，使用了 ${time} 毫秒',
+            }
+        }, 
+
+        Valine : {
+            switch         : true,
+            el             : '.comments-content',
+            appId          : 'srhKtvWPQTWYKh3qX8G8M7v0-gzGzoHsz',
+            appKey         : '8uVSP1q6UlALVC5igYfIfv2h',
+            placeholder    : '你是我一生只会遇见一次的惊喜...',
+            avatar         : 'mm',
+            meta           : 'nick,mail,link',
+            requiredFields : 'nick,mail',
+            pageSize       : 5,
+            lang           : 'zh-cn',
+            visitor        : true,
+            enableQQ       : true
+        },
+
+        Tocbot : {
+            switch                : true,
+            tocSelector           : '.toc',
+            contentSelector       : '.article-body',
+            headingSelector       : 'h1, h2, h3, h4, h5',
+            headingsOffset        : 0,
+            scrollSmooth          : true,
+            scrollSmoothOffset    : -5,
+            positionFixedSelector : '.toc',
+            positionFixedClass    : 'toc-fixed',
+            fixedSidebarOffset    : '',
+        },
+
+        Require : {
+            baseUrl     : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/',
+            waitSeconds : 100
+        },
+
+        Music : {
+            type : 'Meting'
+        },
+        APlayer : {
+            container : '.aplayer',
+            fixed     : true,
+            autoplay  : false,
+            loop      : 'all',
+            order     : 'random',
+            preload   : 'auto',
+            volume    : 0.67,
+            mutex     : true,
+            lrcType   : 3,
+            audio     : [
+                
+                    {
+                        name   : 'aLIEz',
+                        artist : 'mizuki（瑞葵）',
+                        cover  : '/music/cover/aLIEz.jpg',
+                        url    : '/music/song/aLIEz.mp3',
+                        lrc    : '/music/lrc/aLIEz.lrc'
+                    },
+                
+                    {
+                        name   : 'Endless Tears',
+                        artist : 'CLIFF EDGE',
+                        cover  : '/music/cover/Endless Tears.jpg',
+                        url    : '/music/song/Endless Tears.mp3',
+                        lrc    : '/music/lrc/Endless Tears.lrc'
+                    },
+                
+                    {
+                        name   : 'Miracle',
+                        artist : 'Cascada',
+                        cover  : '/music/cover/Miracle.jpg',
+                        url    : '/music/song/Miracle.mp3',
+                        lrc    : '/music/lrc/Miracle.lrc'
+                    },
+                
+                    {
+                        name   : 'Roll The Dice',
+                        artist : '高珊',
+                        cover  : '/music/cover/Roll The Dice.jpg',
+                        url    : '/music/song/Roll The Dice.mp3',
+                        lrc    : '/music/lrc/Roll The Dice.lrc'
+                    },
+                
+                    {
+                        name   : 'See You Again',
+                        artist : 'Charlie Puth, Wiz Khalifa',
+                        cover  : '/music/cover/See You Again.jpg',
+                        url    : '/music/song/See You Again.mp3',
+                        lrc    : '/music/lrc/See You Again.lrc'
+                    },
+                
+                    {
+                        name   : 'Traveling Light',
+                        artist : 'Joel Hanson, Sara Groves',
+                        cover  : '/music/cover/Traveling Light.jpg',
+                        url    : '/music/song/Traveling Light.mp3',
+                        lrc    : '/music/lrc/Traveling Light.lrc'
+                    },
+                
+                    {
+                        name   : '痴心绝对',
+                        artist : '李圣杰',
+                        cover  : '/music/cover/痴心绝对.jpg',
+                        url    : '/music/song/痴心绝对.mp3',
+                        lrc    : '/music/lrc/痴心绝对.lrc'
+                    },
+                
+                    {
+                        name   : '好想大声说爱你',
+                        artist : 'BAAD（バード）',
+                        cover  : '/music/cover/好想大声说爱你.jpg',
+                        url    : '/music/song/好想大声说爱你.mp3',
+                        lrc    : '/music/lrc/好想大声说爱你.lrc'
+                    },
+                
+            ]
+        },
+        Meting : {
+            id       : '3778678', 
+            lrcshow  : false, 
+            server   : 'netease', 
+            type     : 'playlist', 
+            fixed    : true, 
+            autoplay : false, 
+            loop     : 'all', 
+            order    : 'random', 
+            preload  : 'auto', 
+            volume   : 0.67, 
+            mutex    : true
+        },
+
+        LazyLoad : {
+            default : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/image/website/lazyload.svg'
+        },
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+        Style : {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/APlayer.css',
+            archive          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/archive.css',
+            donate           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/donate.css',
+            fancybox         : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/jquery.fancybox.css',
+            footer           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/footer.css',
+            iconfont         : 'https://at.alicdn.com/t/font_1546312_l3yohatebw.css',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/index.css',
+            menuBubble       : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/menu-bubble.css',
+            page             : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/page.css',
+            post             : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/post.css',
+            search           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/search.css',
+            tocbot           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/tocbot.css',
+            normal           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/normal.css',
+            night            : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/night.css',
+            clipboard        : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/css/clipboard.css'
+        },
 
+        Script: {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/APlayer.min.js',
+            config           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/require.config.js',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/index.js',
+            instantSearch    : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/instantsearch.min.js',
+            jQuery           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/jquery-3.4.1.min.js',
+            loading          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/loading.js',
+            meting           : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/Meting.min.js',
+            iscroll          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/iscroll.js',
+            require          : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/require.min.js'
+        },
 
+        Font: {
+            LongCang   : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/LongCang.css',
+            Monda      : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Monda.css',
+            NotoSansSC : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/NotoSansSC.css',
+            Playball   : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Playball.css',
+            PTMono     : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/PTMono.css',
+            RobotoSlab : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/RobotoSlab.css',
+            Rosario    : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/Rosario.css',
+            UbuntuMono : 'https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/font/UbuntuMono.css'
+        },
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
+        Suffix : {
+            about : '简单地活着, 肆意又精彩.'
+        },
+            
+        Theme : {
+            url  : 'https://github.com/first19326/Hexo-LiveForCode',
+            name : 'Hexo - Live For Code'
+        }  
+    };
+</script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/hexo-liveforcode@master/static/js/index.js"></script>
 </body>
 </html>
